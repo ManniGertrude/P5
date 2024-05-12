@@ -31,8 +31,8 @@ void analysis::Loop()
 // METHOD2: replace line
 //    fChain->GetEntry(jentry);       //read all branches
 //by  b_branchname->GetEntry(ientry); //read only this branch
-   TH1D* Histo = new TH1D("Driftzeiten", "Driftzeiten", 251, -2.5/2., 250*2.5+2.5/2.);
-   //TH2 *Histo = new TH2D("wireCorrelation","wire correlations", 48,0.5,48.5, 48, 0.5, 48.5);
+   //TH2 *Histo = new TH2D("TOT gegen DT", "Ansprecher pro Driftzeit pro Draht", 48, 0.5, 48.5,251,0,627.5);
+   TH1D* Histo = new TH1D("Driftzeiten", "Driftzeiten", 140, 0., 350.);
 
    if (fChain == 0) return;
 
@@ -43,32 +43,28 @@ void analysis::Loop()
       Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
       nb = fChain->GetEntry(jentry);   nbytes += nb;
+      
+      for(UInt_t hit=0; hit<nhits_le; hit++) {
+         if (tot[hit] < 1) break;
+         if (5 * time_le[hit] > 460+2 * tot[hit])break;
 
-   Double_t sum=0;
-	for (UInt_t bin=1; bin <=dzh -> GetNbinsX(); ++bin) {
-         Double_t time=time_le[hit]*2.5;
+        Double_t time=time_le[hit]*2.5;
         Double_t tot_a=tot[hit]*2.5;
-        
-         if (tot[hit] < 16) break;
-         //if (5 * time_le[hit] > 460+2 * tot[hit])break;
-         //if (tot[hit]<49)break;
-         Double_t sum = 0;
-        
-         sum += dzh -> GetBinContent(bin);
-         odb -> SetBinContent(bin,sum);
-        }
-        odb -> Scale(8.5/sum);
-   Histo->Fill(odb);
-   Histo->GetXaxis()->SetTitle("Zeit / ns");
 
+	      for (UInt_t j=0; j<nhits_le; j++) {
+          //Histo->Fill(wire_le[hit],time);
+          Histo->Fill(time);
+	      }
+      }
+            
+      // if (Cut(ientry) < 0) continue;
+   }
+   Histo->GetXaxis()->SetTitle("Driftzeit in ns");
    Histo->GetYaxis()->SetTitle("Trefferanzahl");
    gStyle->SetOptStat(0);
-   //Histo->Draw();
-   Histo->Draw("colz");
-	}
-      }
-        //Histo->Fill(wire_le[hit],wire_le[j]);     
-      // if (Cut(ientry) < 0) continue;
+   Histo->Draw();
+   //Histo->Draw("colz");
+}
 
 int main(int argc, char** argv) {
   TROOT root("app","app");
