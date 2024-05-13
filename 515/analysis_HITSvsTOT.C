@@ -32,7 +32,7 @@ void analysis::Loop()
 //    fChain->GetEntry(jentry);       //read all branches
 //by  b_branchname->GetEntry(ientry); //read only this branch
    //TH2 *Histo = new TH2D("TOT gegen DT", "Zeit #ddot{u}ber Schwelle gegen Driftzeit", 138,0,345,251,0,627.5);
-   TH1D* driftTimesHisto = new TH1D("Driftzeiten", "Driftzeiten", 251, -2.5/2., 250*2.5+2.5/2.);
+   TH1D* driftTimesHisto = new TH1D("Trefferanzahl pro Zeit #ddot{u}ber Signalschwelle", "Trefferanzahl pro Zeit #ddot{u}ber Signalschwelle", 251, -2.5/2., 250*2.5+2.5/2.);
 
    if (fChain == 0) return;
 
@@ -45,7 +45,7 @@ void analysis::Loop()
       nb = fChain->GetEntry(jentry);   nbytes += nb;
       
       for(UInt_t hit=0; hit<nhits_le; hit++) {
-         if (tot[hit] < 16) break;
+         //if (tot[hit] < 16) break;
          //if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
         Double_t time=time_le[hit]*2.5;
         Double_t tot_a=tot[hit]*2.5;
@@ -58,7 +58,7 @@ void analysis::Loop()
             
       // if (Cut(ientry) < 0) continue;
    }
-   driftTimesHisto->GetXaxis()->SetTitle("Driftzeit in ns");
+   driftTimesHisto->GetXaxis()->SetTitle("Zeit #ddot{u}ber Signalschwelle in ns");
    driftTimesHisto->GetYaxis()->SetTitle("Trefferanzahl");
    gStyle->SetOptStat(0);
    driftTimesHisto->Draw();
