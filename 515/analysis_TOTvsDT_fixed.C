@@ -31,7 +31,7 @@ void analysis::Loop()
 // METHOD2: replace line
 //    fChain->GetEntry(jentry);       //read all branches
 //by  b_branchname->GetEntry(ientry); //read only this branch
-   TH2 *Histo = new TH2D("TOT gegen DT", "Zeit #ddot{u}ber Schwelle gegen Driftzeit", 138,0,345,251,0,627.5);
+   TH2 *Histo = new TH2D("TOT gegen DT", "Zeit #ddot{u}ber Schwelle gegen Driftzeit", 251,0,627.5,251,0,627.5);
 
    if (fChain == 0) return;
 
@@ -56,7 +56,9 @@ void analysis::Loop()
             
       // if (Cut(ientry) < 0) continue;
    }
-   
+   Histo->GetXaxis()->SetTitle("Driftzeit in ns");
+   Histo->GetYaxis()->SetTitle("Zeit #ddot{u}ber Signalschwelle in ns");
+   gStyle->SetOptStat(0);
    Histo->Draw("colz");
 }
 
