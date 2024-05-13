@@ -32,7 +32,7 @@ void analysis::Loop()
 //    fChain->GetEntry(jentry);       //read all branches
 //by  b_branchname->GetEntry(ientry); //read only this branch
    //TH2 *Histo = new TH2D("TOT gegen DT", "Ansprecher pro Driftzeit pro Draht", 48, 0.5, 48.5,251,0,627.5);
-   TH1D* Histo = new TH1D("Treffer pro Driftzeit", "Treffer pro Driftzeit", 48, 0.5, 48.5);
+   TH1D* Histo = new TH1D("Treffer pro Driftzeit", "Treffer pro Driftzeit", 251,0,627.5);
 
    if (fChain == 0) return;
 
@@ -45,7 +45,7 @@ void analysis::Loop()
       nb = fChain->GetEntry(jentry);   nbytes += nb;
       
       for(UInt_t hit=0; hit<nhits_le; hit++) {
-         if (tot[hit] < 1) break;
+         if (tot[hit] < 16) break;
          if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
 
         Double_t time=time_le[hit]*2.5;
@@ -53,7 +53,7 @@ void analysis::Loop()
 
 	      for (UInt_t j=0; j<nhits_le; j++) {
           //Histo->Fill(wire_le[hit],time);
-          Histo->Fill(wire_le[hit]);
+          Histo->Fill(time);
 	      }
       }
             

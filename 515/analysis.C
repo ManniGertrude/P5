@@ -45,8 +45,8 @@ void analysis::Loop()
       nb = fChain->GetEntry(jentry);   nbytes += nb;
       
       for(UInt_t hit=0; hit<nhits_le; hit++) {
-         //if (tot[hit] < 1) break;
-         //if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
+         if (tot[hit] < 16) break;
+         if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
 
         Double_t time=time_le[hit]*2.5;
         Double_t tot_a=tot[hit]*2.5;
