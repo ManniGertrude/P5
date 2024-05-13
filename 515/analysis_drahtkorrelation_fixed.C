@@ -32,7 +32,7 @@ void analysis::Loop()
 //    fChain->GetEntry(jentry);       //read all branches
 //by  b_branchname->GetEntry(ientry); //read only this branch
    //TH1D* Histo = new TH1D("Driftzeiten", "Driftzeiten", 251, -2.5/2., 250*2.5+2.5/2.);
-   TH2 *Histo = new TH2D("wireCorrelation","wire correlations", 48,0.5,48.5, 48, 0.5, 48.5);
+   TH2 *Histo = new TH2D("Drahtkorrelation","Drahtkorrelation", 48,0.5,48.5, 48, 0.5, 48.5);
 
    if (fChain == 0) return;
 
@@ -48,8 +48,8 @@ void analysis::Loop()
         Double_t time=time_le[hit]*2.5;
         Double_t tot_a=tot[hit]*2.5;
          if (tot[hit] < 16) break;
-         //if (5 * time_le[hit] > 460+2 * tot[hit])break;
-         //if (tot[hit]<49)break;
+         if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
+
 	//Histo->Fill(time);
 
 	for (UInt_t j=0; j<nhits_le; j++) {
@@ -62,9 +62,8 @@ void analysis::Loop()
             
       // if (Cut(ientry) < 0) continue;
    }
-   Histo->GetXaxis()->SetTitle("Zeit / ns");
-
-   Histo->GetYaxis()->SetTitle("Trefferanzahl");
+   Histo->GetXaxis()->SetTitle("Drahtnummer");
+   Histo->GetYaxis()->SetTitle("Drahtnummer");
    gStyle->SetOptStat(0);
    //Histo->Draw();
    Histo->Draw("colz");

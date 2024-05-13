@@ -46,7 +46,7 @@ void analysis::Loop()
       
       for(UInt_t hit=0; hit<nhits_le; hit++) {
          if (tot[hit] < 16) break;
-         //if (5 * time_le[hit] > 460+2 * tot[hit])break;
+         //if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
         Double_t time=time_le[hit]*2.5;
         Double_t tot_a=tot[hit]*2.5;
 
