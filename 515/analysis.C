@@ -32,7 +32,7 @@ void analysis::Loop()
 //    fChain->GetEntry(jentry);       //read all branches
 //by  b_branchname->GetEntry(ientry); //read only this branch
    //TH2 *Histo = new TH2D("TOT gegen DT", "Ansprecher pro Driftzeit pro Draht", 48, 0.5, 48.5,251,0,627.5);
-   TH1D* Histo = new TH1D("Treffer pro Driftzeit", "asd", 251, 0., 627.5);
+   TH1D* Histo = new TH1D("Treffer pro Driftzeit", "Treffer pro Driftzeit", 251, 0., 627.5);
 
    if (fChain == 0) return;
 
