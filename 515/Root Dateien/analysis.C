@@ -44,31 +44,24 @@ void analysis::Loop()
       if (ientry < 0) break;
       nb = fChain->GetEntry(jentry);   nbytes += nb;
 
-   Double_t sum=0;
-	for (UInt_t bin=1; bin <=dzh -> GetNbinsX(); ++bin) {
-         Double_t time=time_le[hit]*2.5;
-        Double_t tot_a=tot[hit]*2.5;
-        
-         if (tot[hit] < 16) break;
-         //if (5 * time_le[hit] > 460+2 * tot[hit])break;
-         //if (tot[hit]<49)break;
-         Double_t sum = 0;
-        
-         sum += dzh -> GetBinContent(bin);
-         odb -> SetBinContent(bin,sum);
-        }
-        odb -> Scale(8.5/sum);
-   Histo->Fill(odb);
+      Double_t sum = 0;
+      for(UInt_t bin=1; bin<=dzh->GetNbinsX();bin++){
+         sum += dzh->GetBinContent(bin);
+         odb->SetBinContent(bin,sum);
+         
+      }
+         odb->Scale(8.5/sum)
+         Histo->Fill(odb);
+   
+            
+      // if (Cut(ientry) < 0) continue;
+   }
    Histo->GetXaxis()->SetTitle("Zeit / ns");
-
    Histo->GetYaxis()->SetTitle("Trefferanzahl");
    gStyle->SetOptStat(0);
-   //Histo->Draw();
-   Histo->Draw("colz");
-	}
-      }
-        //Histo->Fill(wire_le[hit],wire_le[j]);     
-      // if (Cut(ientry) < 0) continue;
+   Histo->Draw();
+   //Histo->Draw("colz");
+}
 
 int main(int argc, char** argv) {
   TROOT root("app","app");
