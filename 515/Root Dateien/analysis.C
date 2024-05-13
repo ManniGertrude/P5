@@ -1,4 +1,4 @@
-#define analysis_cxx
+no#define analysis_cxx
 #include "analysis.h"
 #include <TH2.h>
 #include <TStyle.h>
@@ -63,7 +63,7 @@ void analysis::Loop()
    driftTimesHisto->GetYaxis()->SetTitle("Trefferanzahl");
    //gStyle->SetOptStat(0);
    driftTimesHisto->Draw();
-   //wireCorrHisto->Draw("colz");
+   wireCorrHisto->Draw("colz");
 }
 
 int main(int argc, char** argv) {
