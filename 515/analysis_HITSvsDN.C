@@ -59,7 +59,7 @@ void analysis::Loop()
             
       // if (Cut(ientry) < 0) continue;
    }
-   Histo->GetXaxis()->SetTitle("Driftzeit in ns");
+   Histo->GetXaxis()->SetTitle("Drahtnummer");
    Histo->GetYaxis()->SetTitle("Trefferanzahl");
    gStyle->SetOptStat(0);
    Histo->Draw();
