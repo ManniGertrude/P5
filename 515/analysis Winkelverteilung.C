@@ -47,9 +47,9 @@ void analysis::Loop()
       nb = fChain->GetEntry(jentry);   nbytes += nb;
       
       for(UInt_t hit=0; hit<nhits_le; hit++) {
-        //if (tot[hit] < 16) break;
-        //if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
-        //if(wire_le[hit] % 2 == 0){wire_le[hit]--;} else{wire_le[hit]++;}
+        if (tot[hit] < 16) break;
+        if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
+        if(wire_le[hit] % 2 == 0){wire_le[hit]--;} else{wire_le[hit]++;}
         
         Double_t time=time_le[hit];
         DT->Fill(time);
@@ -76,7 +76,7 @@ void analysis::Loop()
                 }
             
    }
-   Winkel->GetXaxis()->SetTitle("Winkel in rad");
+   Winkel->GetXaxis()->SetTitle("Winkel in #circ");
    Winkel->GetYaxis()->SetTitle("Trefferanzahl");
    gStyle->SetOptStat(0);
    gStyle->SetPalette(107);
