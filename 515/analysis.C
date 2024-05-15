@@ -31,7 +31,7 @@ void analysis::Loop()
 // METHOD2: replace line
 //    fChain->GetEntry(jentry);       //read all branches
 //by  b_branchname->GetEntry(ientry); //read only this branch
-   TH2 *Histo = new TH2D(".", "Abstandssumme gegen Abstandsdifferenz",80,-8.5,8.5, 80, 0, 17);
+   TH2* Histo = new TH2D(".", "Abstandssumme gegen Abstandsdifferenz",80,-8.5,8.5, 80, 0, 17);
    TH1D* DT = new TH1D(".", "Treffer pro Driftzeit", 251,0,627.5);
    TH1D* ODB = new TH1D(".", "Orts-Driftzeitbeziehung", 251,0,627.5);
 
@@ -46,7 +46,7 @@ void analysis::Loop()
       nb = fChain->GetEntry(jentry);   nbytes += nb;
       
       for(UInt_t hit=0; hit<nhits_le; hit++) {
-        if (tot[hit] < 16) break;
+        //if (tot[hit] < 16) break;
         if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
         if(wire_le[hit] % 2 == 0){wire_le[hit]--;} else{wire_le[hit]++;}
         
@@ -61,12 +61,9 @@ void analysis::Loop()
         ODB->Scale(8.5/sum);                      //ODB->GetBinContent(bin)
 
         for (UInt_t j=0; j<nhits_le; j++) {
-          if(j+1<nhits_le){
-          if(wire_le[j] == wire_le[j+1])
-          {continue;}
-          else {
+          
           Histo->Fill(ODB->GetBinContent(time_le[j+1]) - ODB->GetBinContent(time_le[j]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );
-          Histo->Fill(ODB->GetBinContent(time_le[j]) - ODB->GetBinContent(time_le[j+1]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );};}
+          Histo->Fill(ODB->GetBinContent(time_le[j]) - ODB->GetBinContent(time_le[j+1]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );
         }
 
 
