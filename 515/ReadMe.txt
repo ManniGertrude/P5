@@ -1,6 +1,6 @@
-Diese Datei erklärt den Aufbau aller Dateien in https://github.com/ManniGertrude/P5/tree/main/515: 
+Diese Datei erklärt den Aufbau dieses Ordners in https://github.com/ManniGertrude/P5/tree/main/515: 
 
-Es gibt 4 Arten von Dateien: 
+Es gibt 4 Hauptarten von Dateien: 
 "Parameter Dateien" ist der Ordner, in dem alle ausgewerteten .root Dateien für die Parametersuche der Driftkammer stecken.
 "Root Dateien" ist der Ordner, in dem alle unbearbeiteten .root Dateien liegen, die vor der Langzeitmessung gemessen wurden.
 "4x_name.pdf" sind Vektorgrafiken, die bei der Auswertung entstanden sind. Sie sind geordnet nach Aufgabenteilen und haben Bezeichnungen, um sie zuzuordnen.
