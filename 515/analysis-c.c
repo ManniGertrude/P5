@@ -49,10 +49,10 @@ void analysis::Loop()
       nb = fChain->GetEntry(jentry);   nbytes += nb;
       
       for(UInt_t hit=0; hit<nhits_le; hit++) {
-        //if (tot[hit] < 16) break;
-        //if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
+        if (tot[hit] < 16) break;
+        if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
         Double_t time=time_le[hit];
-        DT->Fill(time*2.5);
+        DT->Fill(time);
         if(wire_le[hit] % 2 == 0){wire_le[hit]--;} else{wire_le[hit]++;}
         
         
@@ -75,9 +75,9 @@ void analysis::Loop()
             Winkel->Fill(-atan((wire_le[j]-15)*8.5/134)*57.2957795);
           ;}
             if(wire_le[j] == wire_le[j+1]-1){
-              if(6 <= wire_le[j] && wire_le[j] <=10){
+              if(0 <= wire_le[j] && wire_le[j] <=48){
                 Histo->Fill(ODB->GetBinContent(time_le[j+1]) - ODB->GetBinContent(time_le[j]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );
-                Histo->Fill(ODB->GetBinContent(time_le[j]) - ODB->GetBinContent(time_le[j+1]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );
+                //Histo->Fill(ODB->GetBinContent(time_le[j]) - ODB->GetBinContent(time_le[j+1]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );
               ;}
             ;}
           }
@@ -94,8 +94,8 @@ void analysis::Loop()
    gStyle->SetPalette(107);
    //Winkel->Fit("gaus");
    //Winkel->Draw();
-   //Histo->Draw("colz");
-   DT->Draw();
+   Histo->Draw("colz");
+   //DT->Draw();
   
 
   }
