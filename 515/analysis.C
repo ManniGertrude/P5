@@ -75,7 +75,7 @@ void analysis::Loop()
             Winkel->Fill(-atan((wire_le[j]-15)*8.5/134)*57.2957795);
           ;}
             if(wire_le[j] == wire_le[j+1]-1){
-              if(1 <= wire_le[j] && wire_le[j] <=5){
+              if(6 <= wire_le[j] && wire_le[j] <=10){
                 Histo->Fill(ODB->GetBinContent(time_le[j+1]) - ODB->GetBinContent(time_le[j]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );
                 Histo->Fill(ODB->GetBinContent(time_le[j]) - ODB->GetBinContent(time_le[j+1]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );
               ;}
@@ -90,9 +90,9 @@ void analysis::Loop()
    Histo->GetYaxis()->SetTitle("Abstandssumme in mm");
    gStyle->SetOptStat(0);
    gStyle->SetPalette(107);
-   Winkel->Fit("gaus");
-   Winkel->Draw();
-   //Histo->Draw("colz");
+   //Winkel->Fit("gaus");
+   //Winkel->Draw();
+   Histo->Draw("colz");
   
 
   }
