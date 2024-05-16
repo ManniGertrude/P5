@@ -32,8 +32,8 @@ void analysis::Loop()
 //    fChain->GetEntry(jentry);       //read all branches
 //by  b_branchname->GetEntry(ientry); //read only this branch
 
-   TH1D* Winkel = new TH1D("1", "Winkelverteilung", 280,-70, 70);
-   TH2 *Histo = new TH2D("2", "Abstandssumme gegen Abstandsdifferenz",80,-8.5,8.5, 80, 0, 17);
+  TH1D* Winkel = new TH1D("1", "Winkelverteilung", 280,-70, 70);
+  TH2 *Histo = new TH2D("2", "Abstandssumme gegen Abstandsdifferenz",80,-8.5,8.5, 80, 0, 17);
    TH1D* DT = new TH1D("3", "Treffer pro Driftzeit", 251,0,627.5);
    TH1D* ODB = new TH1D("4", "Orts-Driftzeitbeziehung", 251,0,627.5);
 
@@ -65,34 +65,37 @@ void analysis::Loop()
 
         for (UInt_t j=0; j<=nhits_le; j++) {
           if(j+1<=nhits_le){
-            if(wire_le[j] == wire_le[j+1]-1){
-          
-          
+
+
+
           if(wire_le[j] <= 15){
             Winkel->Fill(atan((15-wire_le[j])*8.5/134)*57.2957795);
             ;}
           else if (wire_le[j] > 15){
             Winkel->Fill(-atan((wire_le[j]-15)*8.5/134)*57.2957795);
           ;}
-          if(1 <= wire_le[j] && wire_le[j] <=5){
-            Histo->Fill(ODB->GetBinContent(time_le[j+1]) - ODB->GetBinContent(time_le[j]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );
-            Histo->Fill(ODB->GetBinContent(time_le[j]) - ODB->GetBinContent(time_le[j+1]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );
-          ;}
-
-          
-          ;}}}}}
+            if(wire_le[j] == wire_le[j+1]-1){
+              if(1 <= wire_le[j] && wire_le[j] <=5){
+                Histo->Fill(ODB->GetBinContent(time_le[j+1]) - ODB->GetBinContent(time_le[j]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );
+                Histo->Fill(ODB->GetBinContent(time_le[j]) - ODB->GetBinContent(time_le[j+1]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );
+              ;}
+            ;}
+          }
+        }
+      }
+    }
    Winkel->GetXaxis()->SetTitle("Winkel in #circ");
    Winkel->GetYaxis()->SetTitle("Trefferanzahl");
    Histo->GetXaxis()->SetTitle("Abstandsdifferenz in mm");
    Histo->GetYaxis()->SetTitle("Abstandssumme in mm");
    gStyle->SetOptStat(0);
    gStyle->SetPalette(107);
-   //Winkel->Fit("gaus");
-   //Winkel->Draw();
-   Histo->Draw("colz");
+   Winkel->Fit("gaus");
+   Winkel->Draw();
+   //Histo->Draw("colz");
   
 
-}
+  }
 
 
 int main(int argc, char** argv) {
