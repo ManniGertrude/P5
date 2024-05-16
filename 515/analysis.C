@@ -74,13 +74,13 @@ void analysis::Loop()
           else if (wire_le[j] > 15){
             Winkel->Fill(-atan((wire_le[j]-15)*8.5/134)*57.2957795);
           ;}
-          if(13 < wire_le[hit] <17){
+          if(1 <= wire_le[j] && wire_le[j] <=5){
             Histo->Fill(ODB->GetBinContent(time_le[j+1]) - ODB->GetBinContent(time_le[j]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );
-            Histo->Fill(ODB->GetBinContent(time_le[j]) - ODB->GetBinContent(time_le[j+1]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) )
+            Histo->Fill(ODB->GetBinContent(time_le[j]) - ODB->GetBinContent(time_le[j+1]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );
           ;}
 
           
-          }}}}}
+          ;}}}}}
    Winkel->GetXaxis()->SetTitle("Winkel in #circ");
    Winkel->GetYaxis()->SetTitle("Trefferanzahl");
    Histo->GetXaxis()->SetTitle("Abstandsdifferenz in mm");
