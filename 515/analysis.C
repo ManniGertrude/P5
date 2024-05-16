@@ -61,41 +61,38 @@ void analysis::Loop()
           sum += DT->GetBinContent(bin);
           ODB->SetBinContent(bin,sum);
         } 
-        ODB->Scale(8.5/sum);                      //ODB->GetBinContent(bin)
+        ODB->Scale(8.5/sum);
 
         for (UInt_t j=0; j<=nhits_le; j++) {
           if(j+1<=nhits_le){
-          Histo->Fill(ODB->GetBinContent(time_le[j+1]) - ODB->GetBinContent(time_le[j]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );
-          Histo->Fill(ODB->GetBinContent(time_le[j]) - ODB->GetBinContent(time_le[j+1]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );}
+            if(wire_le[j] == wire_le[j+1]-1){
           
-          
-          //TF1 *fit = new TF1("fit", "[0]*cos([1]*x+[2])", -70, 70);
           
           if(wire_le[j] <= 15){
-            Winkel->Fill(atan((15-wire_le[j])*8.5/140)*57.2957795);
-            Winkel->Fill(-atan((15-wire_le[j])*8.5/140)*57.2957795);
+            Winkel->Fill(atan((15-wire_le[j])*8.5/134)*57.2957795);
             ;}
           else if (wire_le[j] > 15){
-            Winkel->Fill(-atan((wire_le[j]-15)*8.5/140)*57.2957795);
-            Winkel->Fill(atan((wire_le[j]-15)*8.5/140)*57.2957795);
+            Winkel->Fill(-atan((wire_le[j]-15)*8.5/134)*57.2957795);
           ;}
-          
-        } 
+          if(13 < wire_le[hit] <17){
+            Histo->Fill(ODB->GetBinContent(time_le[j+1]) - ODB->GetBinContent(time_le[j]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );
+            Histo->Fill(ODB->GetBinContent(time_le[j]) - ODB->GetBinContent(time_le[j+1]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) )
+          ;}
 
-                }
-            
-   }
+          
+          }}}}}
    Winkel->GetXaxis()->SetTitle("Winkel in #circ");
    Winkel->GetYaxis()->SetTitle("Trefferanzahl");
+   Histo->GetXaxis()->SetTitle("Abstandsdifferenz in mm");
+   Histo->GetYaxis()->SetTitle("Abstandssumme in mm");
    gStyle->SetOptStat(0);
    gStyle->SetPalette(107);
-   Winkel->Fit("gaus");
-   Winkel->Draw();
-   //Histo->Draw("colz");
-
+   //Winkel->Fit("gaus");
+   //Winkel->Draw();
+   Histo->Draw("colz");
   
-}
 
+}
 
 
 int main(int argc, char** argv) {
