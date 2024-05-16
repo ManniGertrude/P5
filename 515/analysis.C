@@ -34,8 +34,8 @@ void analysis::Loop()
 
   TH1D* Winkel = new TH1D("1", "Winkelverteilung", 280,-70, 70);
   TH2 *Histo = new TH2D("2", "Abstandssumme gegen Abstandsdifferenz",80,-8.5,8.5, 80, 0, 17);
-   TH1D* DT = new TH1D("3", "Treffer pro Driftzeit", 251,0,627.5);
-   TH1D* ODB = new TH1D("4", "Orts-Driftzeitbeziehung", 251,0,627.5);
+  TH1D* DT = new TH1D("3", "Treffer pro Driftzeit", 251,0,627.5);
+  TH1D* ODB = new TH1D("4", "Orts-Driftzeitbeziehung", 251,0,627.5);
 
    if (fChain == 0) return;
 
@@ -49,13 +49,13 @@ void analysis::Loop()
       nb = fChain->GetEntry(jentry);   nbytes += nb;
       
       for(UInt_t hit=0; hit<nhits_le; hit++) {
-        if (tot[hit] < 16) break;
-        if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
+        //if (tot[hit] < 16) break;
+        //if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
+        Double_t time=time_le[hit];
+        DT->Fill(time*2.5);
         if(wire_le[hit] % 2 == 0){wire_le[hit]--;} else{wire_le[hit]++;}
         
-        Double_t time=time_le[hit];
-        DT->Fill(time);
-
+        
         Double_t sum=0;
         for(UInt_t bin=1; bin <=DT->GetNbinsX(); ++bin){
           sum += DT->GetBinContent(bin);
@@ -88,11 +88,14 @@ void analysis::Loop()
    Winkel->GetYaxis()->SetTitle("Trefferanzahl");
    Histo->GetXaxis()->SetTitle("Abstandsdifferenz in mm");
    Histo->GetYaxis()->SetTitle("Abstandssumme in mm");
+   DT->GetXaxis()->SetTitle("Driftzeit in ns");
+   DT->GetYaxis()->SetTitle("Trefferanzahl");
    gStyle->SetOptStat(0);
    gStyle->SetPalette(107);
    //Winkel->Fit("gaus");
    //Winkel->Draw();
-   Histo->Draw("colz");
+   //Histo->Draw("colz");
+   DT->Draw();
   
 
   }
