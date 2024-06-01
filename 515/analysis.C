@@ -25,7 +25,7 @@ void analysis::Loop()
       for(UInt_t hit=0; hit<nhits_le; hit++) {
         
         // Drahtreihenfolge korrigieren
-        if(wire_le[hit] % 2 == 0){wire_le[hit]--;} else{wire_le[hit]++;}
+      //  if(wire_le[hit] % 2 == 0){wire_le[hit]--;} else{wire_le[hit]++;}
 
         // Rausfiltern von TOTs unter 40 ns
          if (tot[hit] < 16) break;
@@ -43,7 +43,7 @@ void analysis::Loop()
    }
    Histo->GetXaxis()->SetTitle("Drahtnummer");
    Histo->GetYaxis()->SetTitle("Trefferanzahl");
-   //gStyle->SetOptStat(0);
+   gStyle->SetOptStat(0);
    Histo->Draw();
 }
 
