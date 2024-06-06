@@ -103,5 +103,5 @@ plt.errorbar(Strom, Rate, xerr=StromErr, yerr= RateErr, color='purple',capsize=2
 # ax.set(ylabel='Driftstrom $I_{Drift}$ /$\mu$A', xlabel='Hochspannung $U_{Hoch}$ /kV')
 ax.set_ylim(-50, 10000)
 ax.legend()
-plt.savefig("Totzeit.pdf")
+plt.savefig("P5\\529\\Totzeit.pdf")
 plt.show
