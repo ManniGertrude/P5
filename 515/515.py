@@ -6,12 +6,6 @@ from scipy.integrate import quad
 import numpy as np
 import csv
 import os
-<<<<<<< HEAD
-import pandas as pd
-=======
-# import pandas as pd
->>>>>>> c5abb6b17af466fd84738c3dfdd510cc090b2de6
-
 
 
 def read_csv_input(test):
