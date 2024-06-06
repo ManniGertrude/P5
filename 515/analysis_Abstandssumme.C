@@ -31,8 +31,9 @@ void analysis::Loop()
 // METHOD2: replace line
 //    fChain->GetEntry(jentry);       //read all branches
 //by  b_branchname->GetEntry(ientry); //read only this branch
-   //TH2 *Histo = new TH2D("TOT gegen DT", "Ansprecher pro Driftzeit pro Draht", 48, 0.5, 48.5,251,0,627.5);
-   TH1D* Histo = new TH1D("Treffer pro Drahtnummer", "Treffer pro Drahtnummer", 48, 0.5, 48.5);
+   TH2 *Histo = new TH2D(".", "Abstandssumme gegen Abstandsdifferenz",80,-8.5,8.5, 80, 0, 17);
+   TH1D* DT = new TH1D(".", "Treffer pro Driftzeit", 251,0,627.5);
+   TH1D* ODB = new TH1D(".", "Orts-Driftzeitbeziehung", 251,0,627.5);
 
    if (fChain == 0) return;
 
@@ -45,31 +46,45 @@ void analysis::Loop()
       nb = fChain->GetEntry(jentry);   nbytes += nb;
       
       for(UInt_t hit=0; hit<nhits_le; hit++) {
-        if(wire_le[hit] % 2 == 0){
-          wire_le[hit]--;
-          } else if (wire_le[hit] % 2 == 1)
-          {
-        wire_le[hit]++;}
-         //if (tot[hit] < 16) break;
-         //if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
-
+        if (tot[hit] < 16) break;
+        if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
+        if(wire_le[hit] % 2 == 0){wire_le[hit]--;} else{wire_le[hit]++;}
+        
         Double_t time=time_le[hit]*2.5;
-        Double_t tot_a=tot[hit]*2.5;
+        DT->Fill(time);
 
-	      for (UInt_t j=0; j<nhits_le; j++) {
-          //Histo->Fill(wire_le[hit],time);
-          Histo->Fill(wire_le[hit]);
-	      }
+        Double_t sum=0;
+        for(UInt_t bin=1; bin <=DT->GetNbinsX(); ++bin){
+          sum += DT->GetBinContent(bin);
+          ODB->SetBinContent(bin,sum);
+        } 
+        ODB->Scale(8.5/sum);                      //ODB->GetBinContent(bin)
+
+        for (UInt_t j=0; j<nhits_le; j++) {
+          if(j+1<nhits_le){
+          if(wire_le[j] == wire_le[j+1])
+          {continue;}
+          else {
+          Histo->Fill(ODB->GetBinContent(time_le[j+1]) - ODB->GetBinContent(time_le[j]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );
+          Histo->Fill(ODB->GetBinContent(time_le[j]) - ODB->GetBinContent(time_le[j+1]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );};}
+        }
+
+
+
+
+
       }
             
-      // if (Cut(ientry) < 0) continue;
    }
-   Histo->GetXaxis()->SetTitle("Drahtnummer");
-   Histo->GetYaxis()->SetTitle("Trefferanzahl");
+   Histo->GetXaxis()->SetTitle("Abstandsdifferenz zweier benachbarter Dr#ddot{a}hte in mm");
+   Histo->GetYaxis()->SetTitle("Abstandssumme zweier benachbarter Dr#ddot{a}hte in mm");
    gStyle->SetOptStat(0);
-   Histo->Draw();
-   //Histo->Draw("colz");
+   gStyle->SetPalette(107);
+   //ODB->Draw();
+   Histo->Draw("colz");
 }
+
+
 
 int main(int argc, char** argv) {
   TROOT root("app","app");

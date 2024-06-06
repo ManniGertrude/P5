@@ -31,10 +31,14 @@ void analysis::Loop()
 // METHOD2: replace line
 //    fChain->GetEntry(jentry);       //read all branches
 //by  b_branchname->GetEntry(ientry); //read only this branch
-   //TH2 *Histo = new TH2D("TOT gegen DT", "Ansprecher pro Driftzeit pro Draht", 48, 0.5, 48.5,251,0,627.5);
-   TH1D* Histo = new TH1D("Treffer pro Drahtnummer", "Treffer pro Drahtnummer", 48, 0.5, 48.5);
+
+   TH1D* Winkel = new TH1D("1", "Winkelverteilung", 280,-70, 70);
+   TH2 *Histo = new TH2D("2", "Abstandssumme gegen Abstandsdifferenz",80,-8.5,8.5, 80, 0, 17);
+   TH1D* DT = new TH1D("3", "Treffer pro Driftzeit", 251,0,627.5);
+   TH1D* ODB = new TH1D("4", "Orts-Driftzeitbeziehung", 251,0,627.5);
 
    if (fChain == 0) return;
+
 
    Long64_t nentries = fChain->GetEntriesFast();
 
@@ -45,31 +49,54 @@ void analysis::Loop()
       nb = fChain->GetEntry(jentry);   nbytes += nb;
       
       for(UInt_t hit=0; hit<nhits_le; hit++) {
-        if(wire_le[hit] % 2 == 0){
-          wire_le[hit]--;
-          } else if (wire_le[hit] % 2 == 1)
-          {
-        wire_le[hit]++;}
-         //if (tot[hit] < 16) break;
-         //if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
+        if (tot[hit] < 16) break;
+        if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
+        if(wire_le[hit] % 2 == 0){wire_le[hit]--;} else{wire_le[hit]++;}
+        
+        Double_t time=time_le[hit];
+        DT->Fill(time);
 
-        Double_t time=time_le[hit]*2.5;
-        Double_t tot_a=tot[hit]*2.5;
+        Double_t sum=0;
+        for(UInt_t bin=1; bin <=DT->GetNbinsX(); ++bin){
+          sum += DT->GetBinContent(bin);
+          ODB->SetBinContent(bin,sum);
+        } 
+        ODB->Scale(8.5/sum);                      //ODB->GetBinContent(bin)
 
-	      for (UInt_t j=0; j<nhits_le; j++) {
-          //Histo->Fill(wire_le[hit],time);
-          Histo->Fill(wire_le[hit]);
-	      }
-      }
+        for (UInt_t j=0; j<=nhits_le; j++) {
+          if(j+1<=nhits_le){
+          Histo->Fill(ODB->GetBinContent(time_le[j+1]) - ODB->GetBinContent(time_le[j]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );
+          Histo->Fill(ODB->GetBinContent(time_le[j]) - ODB->GetBinContent(time_le[j+1]),ODB->GetBinContent(time_le[j+1]) + ODB->GetBinContent(time_le[j]) );}
+          
+          
+          //TF1 *fit = new TF1("fit", "[0]*cos([1]*x+[2])", -70, 70);
+          
+          if(wire_le[j] <= 15){
+            Winkel->Fill(atan((15-wire_le[j])*8.5/140)*57.2957795);
+            Winkel->Fill(-atan((15-wire_le[j])*8.5/140)*57.2957795);
+            ;}
+          else if (wire_le[j] > 15){
+            Winkel->Fill(-atan((wire_le[j]-15)*8.5/140)*57.2957795);
+            Winkel->Fill(atan((wire_le[j]-15)*8.5/140)*57.2957795);
+          ;}
+          
+        } 
+
+                }
             
-      // if (Cut(ientry) < 0) continue;
    }
-   Histo->GetXaxis()->SetTitle("Drahtnummer");
-   Histo->GetYaxis()->SetTitle("Trefferanzahl");
+   Winkel->GetXaxis()->SetTitle("Winkel in #circ");
+   Winkel->GetYaxis()->SetTitle("Trefferanzahl");
    gStyle->SetOptStat(0);
-   Histo->Draw();
+   gStyle->SetPalette(107);
+   Winkel->Fit("gaus");
+   Winkel->Draw();
    //Histo->Draw("colz");
+
+  
 }
+
+
 
 int main(int argc, char** argv) {
   TROOT root("app","app");

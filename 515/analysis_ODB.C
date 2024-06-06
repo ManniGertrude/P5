@@ -32,7 +32,8 @@ void analysis::Loop()
 //    fChain->GetEntry(jentry);       //read all branches
 //by  b_branchname->GetEntry(ientry); //read only this branch
    //TH2 *Histo = new TH2D("TOT gegen DT", "Ansprecher pro Driftzeit pro Draht", 48, 0.5, 48.5,251,0,627.5);
-   TH1D* Histo = new TH1D("Treffer pro Drahtnummer", "Treffer pro Drahtnummer", 48, 0.5, 48.5);
+   TH1D* Histo = new TH1D("Treffer pro Driftzeit", "Treffer pro Driftzeit", 251,0,627.5);
+   TH1D* ODB = new TH1D("Treffer pro Driftzeit", "Orts-Driftzeitbeziehung", 251,0,627.5);
 
    if (fChain == 0) return;
 
@@ -45,31 +46,40 @@ void analysis::Loop()
       nb = fChain->GetEntry(jentry);   nbytes += nb;
       
       for(UInt_t hit=0; hit<nhits_le; hit++) {
+         if (tot[hit] < 16) break;
+         if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
+
         if(wire_le[hit] % 2 == 0){
           wire_le[hit]--;
           } else if (wire_le[hit] % 2 == 1)
           {
         wire_le[hit]++;}
-         //if (tot[hit] < 16) break;
-         //if (0.884615* time_le[hit] > tot[hit]+56*0.884615)break;
+        
 
         Double_t time=time_le[hit]*2.5;
         Double_t tot_a=tot[hit]*2.5;
 
 	      for (UInt_t j=0; j<nhits_le; j++) {
           //Histo->Fill(wire_le[hit],time);
-          Histo->Fill(wire_le[hit]);
+          Histo->Fill(time);
 	      }
+        Double_t sum=0;
+        for(UInt_t bin=1; bin <=Histo->GetNbinsX(); ++bin){
+          sum += Histo->GetBinContent(bin);
+          ODB -> SetBinContent(bin,sum);
+        }
+        ODB->Scale(8.5/sum);
       }
             
-      // if (Cut(ientry) < 0) continue;
    }
-   Histo->GetXaxis()->SetTitle("Drahtnummer");
-   Histo->GetYaxis()->SetTitle("Trefferanzahl");
+   ODB->GetXaxis()->SetTitle("Zeit in ns");
+   ODB->GetYaxis()->SetTitle("Abstand zum Draht in mm");
    gStyle->SetOptStat(0);
-   Histo->Draw();
+   ODB->Draw();
    //Histo->Draw("colz");
 }
+
+
 
 int main(int argc, char** argv) {
   TROOT root("app","app");
