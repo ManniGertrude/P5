@@ -26,11 +26,7 @@ def read_csv_input(test):
                     data[field].append(0.)
     return data
 
-<<<<<<< HEAD
-input_dir = "./"
-=======
 input_dir = "C:\\Users\\Surface Pro 7 Manni\\Desktop\\Code Dateien\\p5\\515\\"
->>>>>>> c5abb6b17af466fd84738c3dfdd510cc090b2de6
 f = "driftstrom_ohne.csv"
 
 data = read_csv_input(os.path.join(input_dir, f))
