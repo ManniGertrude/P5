@@ -5,9 +5,9 @@ import numpy as np
 
 
 
-Strom = np.array([0.03, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])
-StromErr = np.array([0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01])
-Rate = np.array([1174, 1749, 1979, 2161, 2309, 2449, 2578, 3110, 3495, 3828, 4115, 4647, 5192, 5607, 6109, 6470, 6809, 7128])
+Strom = np.array([0.0001, 0.03, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])
+StromErr = np.array([0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01])
+Rate = np.array([1, 1174, 1749, 1979, 2161, 2309, 2449, 2578, 3110, 3495, 3828, 4115, 4647, 5192, 5607, 6109, 6470, 6809, 7128])
 RateErr = Rate/30
 
 fig, ax= plt.subplots()
@@ -19,10 +19,10 @@ def lin_fit(Para, x):
      return Para[0] * x + Para[1]
 
 lin_model = odr.Model(lin_fit)
-lin_mydata = odr.RealData(Strom[0:6], Rate[0:6], sx= StromErr[0:6], sy= RateErr[0:6])
+lin_mydata = odr.RealData(Strom[0:5], Rate[0:5], sx= StromErr[0:5], sy= RateErr[0:5])
 lin_myodr = odr.ODR(lin_mydata, lin_model, beta0=[1, 2])
 lin_out = lin_myodr.run()
-print(lin_out.beta)
+print("lin_para:",lin_out.beta)
 
 lin_y = lin_fit(lin_out.beta, Strom)
 
@@ -47,9 +47,9 @@ def no_paraly_fit(Para, x):
 
 np_model = odr.Model(no_paraly_fit)
 np_mydata = odr.RealData(Strom, Rate, sx= StromErr, sy= RateErr)
-np_myodr = odr.ODR(np_mydata, np_model, beta0=[0.001], maxit=1000)
+np_myodr = odr.ODR(np_mydata, np_model, beta0=[0.0001], maxit=1000)
 np_out = np_myodr.run()
-print(np_out.beta)
+print("np_para:", np_out.beta)
 np_y = no_paraly_fit(np_out.beta, Strom)
 
 np_residuals = Strom - np_y
@@ -69,13 +69,13 @@ plt.plot(Strom, np_y, c="blue", label='nicht paralysierter Fit')
 
 def yes_paraly_fit(Para, x):
     n = lin_fit(lin_out.beta, x)
-    return  n * np.exp(-n*Para[0] + Para[1])+Para[2]
+    return  n * np.exp(-n*Para[0] + Para[1])
 
 yp_model = odr.Model(yes_paraly_fit)
 yp_mydata = odr.RealData(Strom, Rate, sx= StromErr, sy= RateErr)
-yp_myodr = odr.ODR(yp_mydata, yp_model, beta0=[0.000001, 0.1, 0.1], maxit=1000)
+yp_myodr = odr.ODR(yp_mydata, yp_model, beta0=[0.000001, 0.1], maxit=1000)
 yp_out = yp_myodr.run()
-print(yp_out.beta)
+print("yp_para:", yp_out.beta)
 yp_y = yes_paraly_fit(yp_out.beta, Strom)
 
 yp_residuals = Strom - yp_y
