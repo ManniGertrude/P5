@@ -28,10 +28,11 @@ lin_y = lin_fit(lin_out.beta, Strom)
 lin_residuals = Rate - lin_y
 lin_chisq_odr = np.sum((lin_residuals**2)/Rate**2)
 lin_rsquared = r2_score(Rate[0:5], lin_y[0:5])
-# print("$lin_{para}:",lin_out.beta, '$')
-# print ('$\chi_{lin}^2 =', lin_chisq_odr, '\chi/ndf =', lin_chisq_odr/(len(Strom)-len(lin_out.beta)), '$')
-# print('$R_{lin}^2 =',lin_rsquared, '$')
-# print()
+# lin_out.pprint()
+print('$Parameter:', lin_out.beta, lin_out.sd_beta,  '$')
+print ('$\chi_{lin}^2 =', lin_chisq_odr, '\chi/ndf =', lin_chisq_odr/(len(Strom)-len(lin_out.beta)), '$')
+print('$R_{lin}^2 =',lin_rsquared, '$')
+print()
 
 plt.plot(Strom, lin_y, c="red", label='Linearer Fit')
 
@@ -54,10 +55,11 @@ np_y = no_paraly_fit(np_out.beta, Strom)
 np_residuals = Rate - np_y
 np_chisq_odr = np.sum((np_residuals**2)/Rate**2)
 np_rsquared = r2_score(Rate, np_y)
-# print("$np_{para}:", np_out.beta, '$')
-# print ('$\chi_{np}^2 =', np_chisq_odr, '\chi/ndf =', np_chisq_odr/(len(Strom)-len(np_out.beta)), '$')
-# print('$R_{np}^2 =',np_rsquared, '$')
-# print()
+# np_out.pprint()
+print('$Parameter:', np_out.beta,  np_out.sd_beta, '$')
+print ('$\chi_{np}^2 =', np_chisq_odr, '\chi/ndf =', np_chisq_odr/(len(Strom)-len(np_out.beta)), '$')
+print('$R_{np}^2 =',np_rsquared, '$')
+print()
 plt.plot(Strom, np_y, c="blue", label='nicht paralysierter Fit')
 
 
@@ -78,9 +80,11 @@ yp_y =  yes_paraly_fit(yp_out.beta, Strom) #lin_y* np.exp(-lin_y*0.000029)/1.8  
 yp_residuals = Rate - yp_y
 yp_chisq_odr = np.sum((yp_residuals**2)/Rate**2)
 yp_rsquared = r2_score(Rate, yp_y)
-print("$yp_{para}:", yp_out.beta, '$')
+# yp_out.pprint()
+print('$Parameter:', yp_out.beta, yp_out.sd_beta,  '$')
 print ('$\chi_{np}^2 =', yp_chisq_odr, '\chi/ndf =', yp_chisq_odr/(len(Strom)-len(yp_out.beta)), '$')
 print('$R_{np}^2 =',yp_rsquared, '$')
+print()
 plt.plot(Strom, yp_y, c="green", label='paralysierter Fit')
 
 
@@ -102,7 +106,8 @@ q_y =  quantum_paraly_fit(q_out.beta, Strom)
 q_residuals = Rate - q_y
 q_chisq_odr = np.sum((q_residuals**2)/Rate**2)
 q_rsquared = r2_score(Rate, q_y)
-print("$q_{para}:", q_out.beta, '$')
+# q_out.pprint()
+print('$Parameter:', q_out.beta, q_out.sd_beta,  '$')
 print ('$\chi_{q}^2 =', q_chisq_odr, '\chi/ndf =', q_chisq_odr/(len(Strom)-len(q_out.beta)), '$')
 print('$R_{q}^2 =',q_rsquared, '$')
 plt.plot(Strom, q_y, c="gold", label='quantenparalysierter Fit')
