@@ -36,8 +36,6 @@ Zr_myodr = odr.ODR(Zr_mydata, model, beta0=[0.0001, 1, 1], maxit=1000)
 out = myodr.run()
 Zr_out = Zr_myodr.run()
 
-print("para: ",out.beta)
-print("Zr_para: ",Zr_out.beta)
 
 yWerte = fit(out.beta, Dicke)
 residuals = Dicke - yWerte
@@ -45,6 +43,7 @@ chisq_odr = np.sum((residuals**2)/NormRate**2)
 ss_res = np.sum(residuals**2)
 ss_tot = np.sum((yWerte-np.mean(yWerte))**2)
 rsquared = 1 - (ss_res / ss_tot)
+print("para: ",out.beta, out.sd_beta)
 print ('chi^2 =', chisq_odr, 'chi/ndf =', chisq_odr/(len(Strom)-len(out.beta)))
 print('R^2 =',rsquared)
 
@@ -54,6 +53,7 @@ Zr_chisq_odr = np.sum((Zr_residuals**2)/Zr_NormRate**2)
 Zr_ss_res = np.sum(Zr_residuals**2)
 Zr_ss_tot = np.sum((yWerte-np.mean(yWerte))**2)
 Zr_rsquared = 1 - (Zr_ss_res / Zr_ss_tot)
+print("Zr_para: ",Zr_out.beta, Zr_out.sd_beta)
 print ('chi^2 =', Zr_chisq_odr, 'chi/ndf =', Zr_chisq_odr/(len(Strom)-len(Zr_out.beta)))
 print('R^2 =',Zr_rsquared)
 
