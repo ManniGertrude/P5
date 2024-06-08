@@ -12,7 +12,6 @@ RateErr = Rate/(10*np.sqrt(30))
 
 fig, ax= plt.subplots()
 
-
 # Linearer Fit
  
 def lin_fit(Para, x):
