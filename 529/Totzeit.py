@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import scipy.optimize as opt
 import scipy.odr as odr
 import numpy as np
+from sklearn.metrics import r2_score
 
 
 
@@ -21,17 +22,17 @@ lin_model = odr.Model(lin_fit)
 lin_mydata = odr.RealData(Strom[0:5], Rate[0:5], sx= StromErr[0:5], sy= RateErr[0:5])
 lin_myodr = odr.ODR(lin_mydata, lin_model, beta0=[1, 2])
 lin_out = lin_myodr.run()
-print("lin_para:",lin_out.beta)
 
 lin_y = lin_fit(lin_out.beta, Strom)
 
-lin_residuals = Strom - lin_y
+lin_residuals = Rate - lin_y
 lin_chisq_odr = np.sum((lin_residuals**2)/Rate**2)
-lin_ss_res = np.sum(lin_residuals**2)
-lin_ss_tot = np.sum((lin_y-np.mean(lin_y))**2)
-lin_rsquared = 1 - (lin_ss_res / lin_ss_tot)
-# print ('chi^2 =', lin_chisq_odr, 'chi/ndf =', lin_chisq_odr/(len(Strom)-len(lin_out.beta)))
-# print('R^2 =',lin_rsquared)
+lin_rsquared = r2_score(Rate[0:5], lin_y[0:5])
+# print("$lin_{para}:",lin_out.beta, '$')
+# print ('$\chi_{lin}^2 =', lin_chisq_odr, '\chi/ndf =', lin_chisq_odr/(len(Strom)-len(lin_out.beta)), '$')
+# print('$R_{lin}^2 =',lin_rsquared, '$')
+# print()
+
 plt.plot(Strom, lin_y, c="red", label='Linearer Fit')
 
 
@@ -48,18 +49,16 @@ np_model = odr.Model(no_paraly_fit)
 np_mydata = odr.RealData(Strom, Rate, sx= StromErr, sy= RateErr)
 np_myodr = odr.ODR(np_mydata, np_model, beta0=[0.0001], maxit=1000)
 np_out = np_myodr.run()
-print("np_para:", np_out.beta)
 np_y = no_paraly_fit(np_out.beta, Strom)
 
-np_residuals = Strom - np_y
+np_residuals = Rate - np_y
 np_chisq_odr = np.sum((np_residuals**2)/Rate**2)
-np_ss_res = np.sum(np_residuals**2)
-np_ss_tot = np.sum((np_y-np.mean(np_y))**2)
-np_rsquared = 1 - (np_ss_res / np_ss_tot)
-# print ('chi^2 =', np_chisq_odr, 'chi/ndf =', np_chisq_odr/(len(Strom)-len(np_out.beta)))
-# print('R^2 =',np_rsquared)
+np_rsquared = r2_score(Rate, np_y)
+# print("$np_{para}:", np_out.beta, '$')
+# print ('$\chi_{np}^2 =', np_chisq_odr, '\chi/ndf =', np_chisq_odr/(len(Strom)-len(np_out.beta)), '$')
+# print('$R_{np}^2 =',np_rsquared, '$')
+# print()
 plt.plot(Strom, np_y, c="blue", label='nicht paralysierter Fit')
-
 
 
 
@@ -68,22 +67,20 @@ plt.plot(Strom, np_y, c="blue", label='nicht paralysierter Fit')
 
 def yes_paraly_fit(Para, x):
     n = lin_fit(lin_out.beta, x)
-    return  n * np.exp(-n*Para[0] + Para[1])
+    return  n* np.exp(-n*Para)
 
 yp_model = odr.Model(yes_paraly_fit)
 yp_mydata = odr.RealData(Strom, Rate, sx= StromErr, sy= RateErr)
-yp_myodr = odr.ODR(yp_mydata, yp_model, beta0=[0.000001, 0.1], maxit=1000)
+yp_myodr = odr.ODR(yp_mydata, yp_model, beta0=[1e-5], maxit=1000)
 yp_out = yp_myodr.run()
-print("yp_para:", yp_out.beta)
-yp_y = yes_paraly_fit(yp_out.beta, Strom)
+yp_y =  yes_paraly_fit(yp_out.beta, Strom) #lin_y* np.exp(-lin_y*0.000029)/1.8     #
 
-yp_residuals = Strom - yp_y
+yp_residuals = Rate - yp_y
 yp_chisq_odr = np.sum((yp_residuals**2)/Rate**2)
-yp_ss_res = np.sum(yp_residuals**2)
-yp_ss_tot = np.sum((yp_y-np.mean(yp_y))**2)
-yp_rsquared = 1 - (yp_ss_res / yp_ss_tot)
-# print ('chi^2 =', np_chisq_odr, 'chi/ndf =', np_chisq_odr/(len(Strom)-len(np_out.beta)))
-# print('R^2 =',np_rsquared)
+yp_rsquared = r2_score(Rate, yp_y)
+print("$yp_{para}:", yp_out.beta, '$')
+print ('$\chi_{np}^2 =', yp_chisq_odr, '\chi/ndf =', yp_chisq_odr/(len(Strom)-len(yp_out.beta)), '$')
+print('$R_{np}^2 =',yp_rsquared, '$')
 plt.plot(Strom, yp_y, c="green", label='paralysierter Fit')
 
 

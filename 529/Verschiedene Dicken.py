@@ -45,8 +45,8 @@ chisq_odr = np.sum((residuals**2)/NormRate**2)
 ss_res = np.sum(residuals**2)
 ss_tot = np.sum((yWerte-np.mean(yWerte))**2)
 rsquared = 1 - (ss_res / ss_tot)
-# print ('chi^2 =', chisq_odr, 'chi/ndf =', chisq_odr/(len(Strom)-len(out.beta)))
-# print('R^2 =',rsquared)
+print ('chi^2 =', chisq_odr, 'chi/ndf =', chisq_odr/(len(Strom)-len(out.beta)))
+print('R^2 =',rsquared)
 
 Zr_yWerte = fit(Zr_out.beta, Dicke)
 Zr_residuals = Dicke - Zr_yWerte
@@ -54,8 +54,8 @@ Zr_chisq_odr = np.sum((Zr_residuals**2)/Zr_NormRate**2)
 Zr_ss_res = np.sum(Zr_residuals**2)
 Zr_ss_tot = np.sum((yWerte-np.mean(yWerte))**2)
 Zr_rsquared = 1 - (Zr_ss_res / Zr_ss_tot)
-# print ('chi^2 =', Zr_chisq_odr, 'chi/ndf =', Zr_chisq_odr/(len(Strom)-len(Zr_out.beta)))
-# print('R^2 =',Zr_rsquared)
+print ('chi^2 =', Zr_chisq_odr, 'chi/ndf =', Zr_chisq_odr/(len(Strom)-len(Zr_out.beta)))
+print('R^2 =',Zr_rsquared)
 
 
 
