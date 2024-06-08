@@ -47,7 +47,7 @@ def no_paraly_fit(Para, x):
 
 np_model = odr.Model(no_paraly_fit)
 np_mydata = odr.RealData(Strom, Rate, sx= StromErr, sy= RateErr)
-np_myodr = odr.ODR(np_mydata, np_model, beta0=[0.0001], maxit=1000)
+np_myodr = odr.ODR(np_mydata, np_model, beta0=[0.00005], maxit=1000)
 np_out = np_myodr.run()
 np_y = no_paraly_fit(np_out.beta, Strom)
 
@@ -86,6 +86,26 @@ plt.plot(Strom, yp_y, c="green", label='paralysierter Fit')
 
 
 
+
+# Beides
+
+def quantum_paraly_fit(Para, x):
+    n = lin_fit(lin_out.beta, x)
+    return  (Para[1]*n* np.exp(-n*Para[0]) + (1-Para[1])*n/(n*Para[0]+1))
+
+q_model = odr.Model(quantum_paraly_fit)
+q_mydata = odr.RealData(Strom, Rate, sx= StromErr, sy= RateErr)
+q_myodr = odr.ODR(q_mydata, q_model, beta0=[1e-5, 0.5], maxit=1000)
+q_out = q_myodr.run()
+q_y =  quantum_paraly_fit(q_out.beta, Strom)
+
+q_residuals = Rate - q_y
+q_chisq_odr = np.sum((q_residuals**2)/Rate**2)
+q_rsquared = r2_score(Rate, q_y)
+print("$q_{para}:", q_out.beta, '$')
+print ('$\chi_{q}^2 =', q_chisq_odr, '\chi/ndf =', q_chisq_odr/(len(Strom)-len(q_out.beta)), '$')
+print('$R_{q}^2 =',q_rsquared, '$')
+plt.plot(Strom, q_y, c="gold", label='quantenparalysierter Fit')
 
 
 
