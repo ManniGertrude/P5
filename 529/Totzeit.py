@@ -40,34 +40,34 @@ plt.plot(Strom, lin_y, c="red", label='Lineare Anpassung')
 
 
 
-# # Paralysiert
+# Paralysiert
 
-# def yes_paraly_fit(Para, x):
-#     n = lin_fit(lin_out.beta, x)
-#     return  (n)* np.exp(-(n)*Para)
+def yes_paraly_fit(Para, x):
+    n = lin_fit(lin_out.beta, x)
+    return  (n)* np.exp(-(n)*Para)
 
-# yp_model = odr.Model(yes_paraly_fit)
-# yp_mydata = odr.RealData(Strom, Rate, sx= StromErr, sy= RateErr)
-# yp_myodr = odr.ODR(yp_mydata, yp_model, beta0=[1e-5], maxit=1000)
-# yp_out = yp_myodr.run()
-# yp_y =  yes_paraly_fit(yp_out.beta, Strom)
+yp_model = odr.Model(yes_paraly_fit)
+yp_mydata = odr.RealData(Strom, Rate, sx= StromErr, sy= RateErr)
+yp_myodr = odr.ODR(yp_mydata, yp_model, beta0=[1e-5], maxit=1000)
+yp_out = yp_myodr.run()
+yp_y =  yes_paraly_fit(yp_out.beta, Strom)
 
-# yp_residuals = Rate - yp_y
-# yp_chisq_odr = np.sum((yp_residuals**2)/Rate**2)
-# yp_rsquared = r2_score(Rate, yp_y)
-# # yp_out.pprint()
-# print('$Parameter:', yp_out.beta, yp_out.sd_beta,  '$')
-# print ('$\chi_{np}^2 =', yp_chisq_odr, '\chi/ndf =', yp_chisq_odr/(len(Strom)-len(yp_out.beta)), '$')
-# print('$R_{np}^2 =',yp_rsquared, '$')
-# print()
-# plt.plot(Strom, yp_y, c="green", label='paralysierende Totzeit')
+yp_residuals = Rate - yp_y
+yp_chisq_odr = np.sum((yp_residuals**2)/Rate**2)
+yp_rsquared = r2_score(Rate, yp_y)
+# yp_out.pprint()
+print('$Parameter:', yp_out.beta, yp_out.sd_beta,  '$')
+print ('$\chi_{np}^2 =', yp_chisq_odr, '\chi/ndf =', yp_chisq_odr/(len(Strom)-len(yp_out.beta)), '$')
+print('$R_{np}^2 =',yp_rsquared, '$')
+print()
+plt.plot(Strom, yp_y, c="green", label='paralysierende Totzeit')
 
 
 # Paralysiert (angepasst)
 
 def yes_paraly_fit(Para, x):
     n = lin_fit(lin_out.beta, x)
-    return  (n/1.912)* np.exp(-(n/1.912)*Para[0])
+    return  (n/0.8)* np.exp(-(n/0.8)*Para[0])
 
 yp_model = odr.Model(yes_paraly_fit)
 yp_mydata = odr.RealData(Strom, Rate, sx= StromErr, sy= RateErr)
@@ -79,9 +79,9 @@ yp_residuals = Rate - yp_y
 yp_chisq_odr = np.sum((yp_residuals**2)/Rate**2)
 yp_rsquared = r2_score(Rate, yp_y)
 # yp_out.pprint()
-print('$Parameter:', yp_out.beta, yp_out.sd_beta,  '$')
-print ('$\chi_{np}^2 =', yp_chisq_odr, '\chi/ndf =', yp_chisq_odr/(len(Strom)-len(yp_out.beta)), '$')
-print('$R_{np}^2 =',yp_rsquared, '$')
+print('$Parameter_{angepasst}:', yp_out.beta, yp_out.sd_beta,  '$')
+print ('$\chi_{np_{angepasst}}^2 =', yp_chisq_odr, '\chi/ndf =', yp_chisq_odr/(len(Strom)-len(yp_out.beta)), '$')
+print('$R_{np_{angepasst}}^2 =',yp_rsquared, '$')
 print()
 plt.plot(Strom, yp_y, c="green", label='paralysierende Totzeit (angepasst)')
 
@@ -108,9 +108,6 @@ print ('$\chi_{np}^2 =', np_chisq_odr, '\chi/ndf =', np_chisq_odr/(len(Strom)-le
 print('$R_{np}^2 =',np_rsquared, '$')
 print()
 plt.plot(Strom, np_y, c="blue", label='nicht paralysierende Totzeit')
-
-
-
 
 
 
