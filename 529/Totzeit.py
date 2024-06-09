@@ -60,14 +60,14 @@ print('$Parameter:', yp_out.beta, yp_out.sd_beta,  '$')
 print ('$\chi_{np}^2 =', yp_chisq_odr, '\chi/ndf =', yp_chisq_odr/(len(Strom)-len(yp_out.beta)), '$')
 print('$R_{np}^2 =',yp_rsquared, '$')
 print()
-plt.plot(Strom, yp_y, c="green", label='paralysierende Totzeit')
+# plt.plot(Strom, yp_y, c="green", label='paralysierende Totzeit')
 
 
 # Paralysiert (angepasst)
 
 def yes_paraly_fit(Para, x):
     n = lin_fit(lin_out.beta, x)
-    return  (n/0.8)* np.exp(-(n/0.8)*Para[0])
+    return  (n/1.912)* np.exp(-(n/1.912)*Para[0])
 
 yp_model = odr.Model(yes_paraly_fit)
 yp_mydata = odr.RealData(Strom, Rate, sx= StromErr, sy= RateErr)
@@ -117,5 +117,7 @@ plt.errorbar(Strom, Rate, xerr=StromErr, yerr= RateErr, color='purple',capsize=2
 # ax.set(ylabel='Driftstrom $I_{Drift}$ /$\mu$A', xlabel='Hochspannung $U_{Hoch}$ /kV')
 ax.set_ylim(-50, 8000)
 ax.legend()
+plt.ylabel('Zählrate in 1/s')
+plt.xlabel('Stromstärke in mA')
 plt.savefig("P5\\529\\Totzeit.pdf")
 plt.show
