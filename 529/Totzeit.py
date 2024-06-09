@@ -34,9 +34,56 @@ print ('$\chi_{lin}^2 =', lin_chisq_odr, '\chi/ndf =', lin_chisq_odr/(len(Strom)
 print('$R_{lin}^2 =',lin_rsquared, '$')
 print()
 
-plt.plot(Strom, lin_y, c="red", label='Linearer Fit')
+plt.plot(Strom, lin_y, c="red", label='Lineare Anpassung')
 
 
+
+
+
+# # Paralysiert
+
+# def yes_paraly_fit(Para, x):
+#     n = lin_fit(lin_out.beta, x)
+#     return  (n)* np.exp(-(n)*Para)
+
+# yp_model = odr.Model(yes_paraly_fit)
+# yp_mydata = odr.RealData(Strom, Rate, sx= StromErr, sy= RateErr)
+# yp_myodr = odr.ODR(yp_mydata, yp_model, beta0=[1e-5], maxit=1000)
+# yp_out = yp_myodr.run()
+# yp_y =  yes_paraly_fit(yp_out.beta, Strom)
+
+# yp_residuals = Rate - yp_y
+# yp_chisq_odr = np.sum((yp_residuals**2)/Rate**2)
+# yp_rsquared = r2_score(Rate, yp_y)
+# # yp_out.pprint()
+# print('$Parameter:', yp_out.beta, yp_out.sd_beta,  '$')
+# print ('$\chi_{np}^2 =', yp_chisq_odr, '\chi/ndf =', yp_chisq_odr/(len(Strom)-len(yp_out.beta)), '$')
+# print('$R_{np}^2 =',yp_rsquared, '$')
+# print()
+# plt.plot(Strom, yp_y, c="green", label='paralysierende Totzeit')
+
+
+# Paralysiert (angepasst)
+
+def yes_paraly_fit(Para, x):
+    n = lin_fit(lin_out.beta, x)
+    return  (n/1.912)* np.exp(-(n/1.912)*Para[0])
+
+yp_model = odr.Model(yes_paraly_fit)
+yp_mydata = odr.RealData(Strom, Rate, sx= StromErr, sy= RateErr)
+yp_myodr = odr.ODR(yp_mydata, yp_model, beta0=[1e-5], maxit=1000)
+yp_out = yp_myodr.run()
+yp_y =  yes_paraly_fit(yp_out.beta, Strom) #lin_y* np.exp(-lin_y*0.000029)/1.8     #
+
+yp_residuals = Rate - yp_y
+yp_chisq_odr = np.sum((yp_residuals**2)/Rate**2)
+yp_rsquared = r2_score(Rate, yp_y)
+# yp_out.pprint()
+print('$Parameter:', yp_out.beta, yp_out.sd_beta,  '$')
+print ('$\chi_{np}^2 =', yp_chisq_odr, '\chi/ndf =', yp_chisq_odr/(len(Strom)-len(yp_out.beta)), '$')
+print('$R_{np}^2 =',yp_rsquared, '$')
+print()
+plt.plot(Strom, yp_y, c="green", label='paralysierende Totzeit (angepasst)')
 
 
 
@@ -60,58 +107,7 @@ print('$Parameter:', np_out.beta,  np_out.sd_beta, '$')
 print ('$\chi_{np}^2 =', np_chisq_odr, '\chi/ndf =', np_chisq_odr/(len(Strom)-len(np_out.beta)), '$')
 print('$R_{np}^2 =',np_rsquared, '$')
 print()
-plt.plot(Strom, np_y, c="blue", label='nicht paralysierter Fit')
-
-
-
-
-# Paralysiert
-
-def yes_paraly_fit(Para, x):
-    n = lin_fit(lin_out.beta, x)
-    return  n* np.exp(-n*Para)
-
-yp_model = odr.Model(yes_paraly_fit)
-yp_mydata = odr.RealData(Strom, Rate, sx= StromErr, sy= RateErr)
-yp_myodr = odr.ODR(yp_mydata, yp_model, beta0=[1e-5], maxit=1000)
-yp_out = yp_myodr.run()
-yp_y =  yes_paraly_fit(yp_out.beta, Strom) #lin_y* np.exp(-lin_y*0.000029)/1.8     #
-
-yp_residuals = Rate - yp_y
-yp_chisq_odr = np.sum((yp_residuals**2)/Rate**2)
-yp_rsquared = r2_score(Rate, yp_y)
-# yp_out.pprint()
-print('$Parameter:', yp_out.beta, yp_out.sd_beta,  '$')
-print ('$\chi_{np}^2 =', yp_chisq_odr, '\chi/ndf =', yp_chisq_odr/(len(Strom)-len(yp_out.beta)), '$')
-print('$R_{np}^2 =',yp_rsquared, '$')
-print()
-plt.plot(Strom, yp_y, c="green", label='paralysierter Fit')
-
-
-
-
-
-# Beides
-
-def quantum_paraly_fit(Para, x):
-    n = lin_fit(lin_out.beta, x)
-    return  (Para[1]*n* np.exp(-n*Para[0]) + (1-Para[1])*n/(n*Para[0]+1))
-
-q_model = odr.Model(quantum_paraly_fit)
-q_mydata = odr.RealData(Strom, Rate, sx= StromErr, sy= RateErr)
-q_myodr = odr.ODR(q_mydata, q_model, beta0=[1e-5, 0.5], maxit=1000)
-q_out = q_myodr.run()
-q_y =  quantum_paraly_fit(q_out.beta, Strom)
-
-q_residuals = Rate - q_y
-q_chisq_odr = np.sum((q_residuals**2)/Rate**2)
-q_rsquared = r2_score(Rate, q_y)
-# q_out.pprint()
-print('$Parameter:', q_out.beta, q_out.sd_beta,  '$')
-print ('$\chi_{q}^2 =', q_chisq_odr, '\chi/ndf =', q_chisq_odr/(len(Strom)-len(q_out.beta)), '$')
-print('$R_{q}^2 =',q_rsquared, '$')
-plt.plot(Strom, q_y, c="gold", label='quantenparalysierter Fit')
-
+plt.plot(Strom, np_y, c="blue", label='nicht paralysierende Totzeit')
 
 
 
@@ -122,7 +118,7 @@ plt.grid()
 plt.errorbar(Strom, Rate, xerr=StromErr, yerr= RateErr, color='purple',capsize=2, elinewidth=1.3, capthick=0.8, linestyle='none', label='Messwerte')
 
 # ax.set(ylabel='Driftstrom $I_{Drift}$ /$\mu$A', xlabel='Hochspannung $U_{Hoch}$ /kV')
-ax.set_ylim(-50, 10000)
+ax.set_ylim(-50, 8000)
 ax.legend()
 plt.savefig("P5\\529\\Totzeit.pdf")
 plt.show
