@@ -213,93 +213,93 @@ for i in range(0, len(jcuu)):
     jcuuerr[i] = np.sqrt((((Cu100mA278dot8VUcUE[i]*0.05)/(1*10**8))/dm)**2 + (((Cu100mA278dot8VUcUE[i])/(1*10**8)*dmerr)/(dm**2))**2) * 10**6
 
 
-def ionenzuequi(j):
-    """
-    Returns temperature in Celsius given Fahrenheit temperature.
-    """
-    return j * 32,4
+# def ionenzuequi(j):
+#     """
+#     Returns temperature in Celsius given Fahrenheit temperature.
+#     """
+#     return j * 32,4
 
 
-def make_plot():
+# def make_plot():
 
-    # Define a closure function to register as a callback
-    def convert_ax_c_to_sievert(ax_f):
-        """
-        Update second axis according to first axis.
-        """
-        y1, y2 = ax_f.get_ylim()
-        ax_c.set_ylim(ionenzuequi(y1*10**3), ionenzuequi(y2))
-        ax_c.figure.canvas.draw()
+#     # Define a closure function to register as a callback
+#     def convert_ax_c_to_sievert(ax_f):
+#         """
+#         Update second axis according to first axis.
+#         """
+#         y1, y2 = ax_f.get_ylim()
+#         ax_c.set_ylim(ionenzuequi(y1*10**3), ionenzuequi(y2))
+#         ax_c.figure.canvas.draw()
 
-    fig, ax_f = plt.subplots()
-    ax_c = ax_f.twinx()
+#     fig, ax_f = plt.subplots()
+#     ax_c = ax_f.twinx()
 
-    # automatically update ylim of ax2 when ylim of ax1 changes.
-    ax_f.callbacks.connect("ylim_changed", convert_ax_c_to_sievert)
-    plt.grid()   
-    plt.errorbar(Cu35000V278dot8VUcI, jcui, xerr= cuIerr, yerr= jcuierr, color='rebeccapurple', marker='+',capsize=2,  linestyle='none', label= 'Kupfer')
-    plt.errorbar(Mb35000V279dot8VUcI, jmoi, xerr= moIerr, yerr= jmoierr,color='slateblue', marker='+',capsize=2,  linestyle='none', label= 'Molybdän' )
-    #ax_f.plot(np.linspace(-40, 120, 100))
-    #ax_f.set_xlim(0, 100)
+#     # automatically update ylim of ax2 when ylim of ax1 changes.
+#     ax_f.callbacks.connect("ylim_changed", convert_ax_c_to_sievert)
+#     plt.grid()   
+#     plt.errorbar(Cu35000V278dot8VUcI, jcui, xerr= cuIerr, yerr= jcuierr, color='rebeccapurple', marker='+',capsize=2,  linestyle='none', label= 'Kupfer')
+#     plt.errorbar(Mb35000V279dot8VUcI, jmoi, xerr= moIerr, yerr= jmoierr,color='slateblue', marker='+',capsize=2,  linestyle='none', label= 'Molybdän' )
+#     #ax_f.plot(np.linspace(-40, 120, 100))
+#     #ax_f.set_xlim(0, 100)
 
-    #ax_f.set_title('Two scales: Fahrenheit and Celsius')
-    ax_f.set_ylabel('mittlere Ionendosisleistung <$j$>/ $\mu$Akg$^{-1}$')
-    ax_c.set_ylabel('Äquivalenzdosis $\mu$Svs$^{-1}$')
-    ax.set_xlabel('Emissionsstrom $I_E$/mA')
-    ax.legend()
+#     #ax_f.set_title('Two scales: Fahrenheit and Celsius')
+#     ax_f.set_ylabel('mittlere Ionendosisleistung <$j$>/ $\mu$Akg$^{-1}$')
+#     ax_c.set_ylabel('Äquivalenzdosis $\mu$Svs$^{-1}$')
+#     ax.set_xlabel('Emissionsstrom $I_E$/mA')
+#     ax.legend()
 
-    fig.savefig('P5\\529\\dosisstrom.pdf')
+#     fig.savefig('P5\\529\\dosisstrom.pdf')
 
-    plt.show()
+#     plt.show()
 
-    fig, ax_f = plt.subplots()
-    ax_c = ax_f.twinx()
+#     fig, ax_f = plt.subplots()
+#     ax_c = ax_f.twinx()
 
-    # automatically update ylim of ax2 when ylim of ax1 changes.
-    ax_f.callbacks.connect("ylim_changed", convert_ax_c_to_sievert)
-    plt.grid()   
-    plt.errorbar(Cu100mA278dot8VUcU, jcuu, xerr= cuUerr, yerr= jcuuerr, color='rebeccapurple', marker='+',capsize=2,  linestyle='none', label= 'Kupfer')
-    plt.errorbar(Mb100mA279dot8VUcU, jmou, xerr= moUerr, yerr= jmouerr,color='slateblue', marker='+',capsize=2,  linestyle='none', label= 'Molybdän' )
-    #ax_f.plot(np.linspace(-40, 120, 100))
-    #ax_f.set_xlim(0, 100)
+#     # automatically update ylim of ax2 when ylim of ax1 changes.
+#     ax_f.callbacks.connect("ylim_changed", convert_ax_c_to_sievert)
+#     plt.grid()   
+#     plt.errorbar(Cu100mA278dot8VUcU, jcuu, xerr= cuUerr, yerr= jcuuerr, color='rebeccapurple', marker='+',capsize=2,  linestyle='none', label= 'Kupfer')
+#     plt.errorbar(Mb100mA279dot8VUcU, jmou, xerr= moUerr, yerr= jmouerr,color='slateblue', marker='+',capsize=2,  linestyle='none', label= 'Molybdän' )
+#     #ax_f.plot(np.linspace(-40, 120, 100))
+#     #ax_f.set_xlim(0, 100)
 
-    #ax_f.set_title('Two scales: Fahrenheit and Celsius')
-    ax_f.set_ylabel('mittlere Ionendosisleistung <$j$>/ $\mu$Akg$^{-1}$')
-    ax_c.set_ylabel('Äquivalenzdosis $\mu$Svs$^{-1}$')
-    ax.set_xlabel('Beschleunigungsspannung $U$/kV')
-    ax.legend()
+#     #ax_f.set_title('Two scales: Fahrenheit and Celsius')
+#     ax_f.set_ylabel('mittlere Ionendosisleistung <$j$>/ $\mu$Akg$^{-1}$')
+#     ax_c.set_ylabel('Äquivalenzdosis $\mu$Svs$^{-1}$')
+#     ax.set_xlabel('Beschleunigungsspannung $U$/kV')
+#     ax.legend()
 
-    fig.savefig('P5\\529\\dosisspannung.pdf')
+#     fig.savefig('P5\\529\\dosisspannung.pdf')
 
-    plt.show()
+#     plt.show()
 
 
 
-#make_plot()
+# #make_plot()
 
+
+# fig, ax= plt.subplots()
+
+# plt.grid()   
+
+# plt.errorbar(Cu35000V278dot8VUcI, jcui, xerr= cuIerr, yerr= jcuierr, color='rebeccapurple', marker='+',capsize=2,  linestyle='none', label= 'Kupfer')
+# plt.errorbar(Mb35000V279dot8VUcI, jmoi, xerr= moIerr, yerr= jmoierr,color='slateblue', marker='+',capsize=2,  linestyle='none', label= 'Molybdän' )
+# ax.set(ylabel='mittlere Ionendosisleistung <$j$>/ $\mu$Akg$^{-1}$', xlabel='Emissionsstrom $I_E$/mA')
+
+# ax.legend()
+
+# fig.savefig('P5\\529\\dosisstrom.pdf')
+# plt.show
 
 fig, ax= plt.subplots()
-
-plt.grid()   
-
-plt.errorbar(Cu35000V278dot8VUcI, jcui, xerr= cuIerr, yerr= jcuierr, color='rebeccapurple', marker='+',capsize=2,  linestyle='none', label= 'Kupfer')
-plt.errorbar(Mb35000V279dot8VUcI, jmoi, xerr= moIerr, yerr= jmoierr,color='slateblue', marker='+',capsize=2,  linestyle='none', label= 'Molybdän' )
-ax.set(ylabel='mittlere Ionendosisleistung <$j$>/ $\mu$Akg$^{-1}$', xlabel='Emissionsstrom $I_E$/mA')
-
-ax.legend()
-
-fig.savefig('P5\\529\\dosisstrom.pdf')
-plt.show
-
-fig, ax= plt.subplots()
-
+ax_1 = ax.twinx()
 plt.grid()   
 plt.errorbar(Cu100mA278dot8VUcU, jcuu, xerr= cuUerr, yerr= jcuuerr, color='rebeccapurple', marker='+',capsize=2,  linestyle='none', label= 'Kupfer')
 plt.errorbar(Mb100mA279dot8VUcU, jmou, xerr= moUerr, yerr= jmouerr,color='slateblue', marker='+',capsize=2,  linestyle='none', label= 'Molybdän' )
-
-ax.set(ylabel='mittlere Ionendosisleistung <$j$>/ $\mu$Akg$^{-1}$', xlabel='Beschleunigungsspannung $U$/kV')
-
-ax.legend()
+ax.set(ylabel='mittlere Ionendosisleistung <$j$>/ $\mu$Akg$^{-1}$')
+plt.set(xlabel='Beschleunigungsspannung $U$/kV')
+ax_1.set(ylabel='<$h$>/ $mSv/s$')
+ax_1.tick_params(axis='y')
+plt.legend()
 fig.savefig("P5\\529\\dosisspannung.pdf")
-
 plt.show
