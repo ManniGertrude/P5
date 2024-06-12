@@ -38,13 +38,13 @@ muErr = np.sqrt((muErr/muErr[2]*muAlu)**2 + (mu/mu[2]*muAluErr)**2 )
 Zr_mu = -np.log(TValue)*2
 Zr_mu = Zr_mu/Zr_mu[2]*Zr_muAlu
 Zr_muErr = -np.log(Zr_TValueErr)*2
-Zr_muErr = np.sqrt((Zr_muErr/Zr_muErr[2]*Zr_muAlu)**2 + (Zr_mu/Zr_mu[2]*Zr_muAluErr)**2 )
+Zr_muErr = np.sqrt((Zr_muErr*Zr_muAlu/Zr_muErr[2])**2 + (Zr_mu/Zr_mu[2]*Zr_muAluErr)**2 )
 
 
 
 fig, ax= plt.subplots()
-plt.errorbar(Material, mu, yerr=muErr,marker='+',markersize=8, color='red',capsize=4, elinewidth=1.7, capthick=1.2, linestyle='none', label='Ohne Zr')
-plt.errorbar(Material, Zr_mu, yerr=Zr_muErr,marker='+',markersize=8, color='blue',capsize=4, elinewidth=1.3, capthick=0.8, linestyle='none', label='Mit Zr')
+plt.errorbar(Material, mu, yerr=muErr,marker='+',markersize=8, color='red',capsize=4, elinewidth=1.7, capthick=1.2, linestyle='none', label='$\mu$ Wert ohne Zr-Folie')
+plt.errorbar(Material, Zr_mu, yerr=Zr_muErr,marker='+',markersize=8, color='blue',capsize=4, elinewidth=1.3, capthick=0.8, linestyle='none', label='$\mu$ Wert mit Zr-Folie')
 ax.legend()
 
 plt.grid()
