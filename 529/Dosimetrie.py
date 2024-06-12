@@ -292,14 +292,15 @@ for i in range(0, len(jcuu)):
 # plt.show
 
 fig, ax= plt.subplots()
-ax_1 = ax.twinx()
-plt.grid()   
-plt.errorbar(Cu100mA278dot8VUcU, jcuu, xerr= cuUerr, yerr= jcuuerr, color='rebeccapurple', marker='+',capsize=2,  linestyle='none', label= 'Kupfer')
-plt.errorbar(Mb100mA279dot8VUcU, jmou, xerr= moUerr, yerr= jmouerr,color='slateblue', marker='+',capsize=2,  linestyle='none', label= 'Molybdän' )
+plt.grid() 
+ax_1 = ax.twinx()  
+ax_1.errorbar(Cu100mA278dot8VUcU, jcuu, xerr= cuUerr, yerr= jcuuerr, color='rebeccapurple', marker='+',capsize=2,  linestyle='none', label= 'Kupfer')
+ax_1.errorbar(Mb100mA279dot8VUcU, jmou, xerr= moUerr, yerr= jmouerr,color='slateblue', marker='+',capsize=2,  linestyle='none', label= 'Molybdän' )
 ax.set(ylabel='mittlere Ionendosisleistung <$j$>/ $\mu$Akg$^{-1}$')
-plt.set(xlabel='Beschleunigungsspannung $U$/kV')
+ax.set(xlabel='Beschleunigungsspannung $U$/kV')
 ax_1.set(ylabel='<$h$>/ $mSv/s$')
-ax_1.tick_params(axis='y')
+ax.set_ylim(-10/32.4*1000, 325/32.4*1000)
+ax_1.set_ylim(-10, 325)
 plt.legend()
 fig.savefig("P5\\529\\dosisspannung.pdf")
 plt.show
