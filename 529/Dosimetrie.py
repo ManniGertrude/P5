@@ -10,7 +10,7 @@ Mb15000V100mAUE = np.array([0.162, 0.202, 0.215, 0.230, 0.222, 0.124, 0.155, 0.1
 I_e1 = np.zeros(len(Mb15000V100mAUE))
 for i in range (0, len(Mb15000V100mAUE)):
     I_e1[i] = Mb15000V100mAUE[i]/(1*10**9) * 10**9
-print(I_e1)
+#print(I_e1)
 
 mb15VUcerr = np.zeros(len(Mb15000V100mAUc))
 for i in range (0, len(Mb15000V100mAUc)):
@@ -26,7 +26,7 @@ Mb25000V100mAUE = np.array([0.320, 0.602, 0.972, 1.289, 1.46, 1.56, 1.63, 1.69, 
 I_e2 = np.zeros(len(Mb25000V100mAUE))
 for i in range (0, len(Mb25000V100mAUE)):
     I_e2[i] = Mb25000V100mAUE[i]/(1*10**9) * 10**9
-print(I_e2)
+#print(I_e2)
 
 mb25VUcerr = np.zeros(len(Mb25000V100mAUc))
 for i in range (0, len(Mb25000V100mAUc)):
@@ -42,7 +42,7 @@ Mb35000V100mAUE = np.array([0.25, 0.68, 1.02, 1.49, 2.17, 3.00, 3.58, 3.95, 4.26
 I_e3 = np.zeros(len(Mb35000V100mAUE))
 for i in range (0, len(Mb35000V100mAUE)):
     I_e3[i] = Mb35000V100mAUE[i]/(1*10**9) * 10**9
-print(I_e3)
+#print(I_e3)
 
 mb35VUcerr = np.zeros(len(Mb35000V100mAUc))
 for i in range (0, len(Mb35000V100mAUc)):
@@ -53,12 +53,13 @@ for i in range(0, len(I_e3)):
     Ie3err[i] = (Mb35000V100mAUE[i]*0.05)/(1*10**9) * 10**9
 
 
+
 fig, ax= plt.subplots()
 
 plt.grid()
 
-plt.errorbar(Mb15000V100mAUc, I_e1, xerr= mb15VUcerr, yerr= Ie1err, color='rebeccapurple', marker='+',capsize=2,  linestyle='none', label= 'U = 15kV')
-plt.errorbar(Mb25000V100mAUc, I_e2, xerr= mb25VUcerr, yerr= Ie2err, color='slateblue', marker='+',capsize=2,  linestyle='none', label= 'U = 25kV')
+plt.errorbar(Mb15000V100mAUc, I_e1, xerr= mb15VUcerr, yerr= Ie1err, color='orchid', marker='+',capsize=2,  linestyle='none', label= 'U = 15kV')
+plt.errorbar(Mb25000V100mAUc, I_e2, xerr= mb25VUcerr, yerr= Ie2err, color='cornflowerblue', marker='+',capsize=2,  linestyle='none', label= 'U = 25kV')
 plt.errorbar(Mb35000V100mAUc, I_e3, xerr= mb35VUcerr, yerr= Ie3err,color='midnightblue', marker='+',capsize=2,  linestyle='none', label= 'U = 35kV' )
 ax.set(ylabel='Ionisationsstrom $I_C$/nA', xlabel='Kondensatorspannung $U_C$/V')
 
@@ -73,8 +74,8 @@ Cu15000V100mAUE = np.array([0.142, 0.418, 0.289, 0.545, 0.619, 0.655, 0.706, 0.7
 
 I_e1cu = np.zeros(len(Cu15000V100mAUE))
 for i in range (0, len(Cu15000V100mAUE)):
-    I_e1cu[i] = Cu15000V100mAUE[i]/(1*10**9) * 10**8
-print(I_e1cu)
+    I_e1cu[i] = Cu15000V100mAUE[i]/(1*10**8) * 10**9
+#print(I_e1cu)
 
 cu15VUcerr = np.zeros(len(Cu15000V100mAUc))
 for i in range (0, len(Cu15000V100mAUc)):
@@ -90,7 +91,7 @@ Cu25000V100mAUE = np.array([0.225, 0.286, 0.655, 0.927, 1.183, 1.569, 2.047, 2.1
 I_e2cu = np.zeros(len(Cu25000V100mAUE))
 for i in range (0, len(Cu25000V100mAUE)):
     I_e2cu[i] = Cu25000V100mAUE[i]/(1*10**8) * 10**9
-print(I_e2cu)
+#print(I_e2cu)
 
 cu25VUcerr = np.zeros(len(Cu25000V100mAUc))
 for i in range (0, len(Cu25000V100mAUc)):
@@ -106,7 +107,7 @@ Cu35000V100mAUE = np.array([0.19, 0.447, 0.298, 0.665, 0.953, 1.277, 1.572, 1.76
 I_e3cu = np.zeros(len(Cu35000V100mAUE))
 for i in range (0, len(Cu35000V100mAUE)):
     I_e3cu[i] = Cu35000V100mAUE[i]/(1*10**8) * 10**9
-print(I_e3cu)
+#print(I_e3cu)
 
 cu35VUcerr = np.zeros(len(Cu35000V100mAUc))
 for i in range (0, len(Cu35000V100mAUc)):
@@ -116,12 +117,14 @@ Ie3cuerr = np.zeros(len(I_e3cu))
 for i in range(0, len(I_e3cu)):
     Ie3cuerr[i] = (Cu35000V100mAUE[i]*0.05)/(1*10**8) * 10**9
 
+
+
 fig, ax= plt.subplots()
 
 plt.grid()   
 
-plt.errorbar(Cu15000V100mAUc, I_e1cu, xerr= cu15VUcerr, yerr= Ie1cuerr, color='rebeccapurple', marker='+',capsize=2,  linestyle='none', label= 'U = 15kV')
-plt.errorbar(Cu25000V100mAUc, I_e2cu, xerr= cu25VUcerr, yerr= Ie2cuerr, color='slateblue', marker='+',capsize=2,  linestyle='none', label= 'U = 25kV')
+plt.errorbar(Cu15000V100mAUc, I_e1cu, xerr= cu15VUcerr, yerr= Ie1cuerr, color='orchid', marker='+',capsize=2,  linestyle='none', label= 'U = 15kV')
+plt.errorbar(Cu25000V100mAUc, I_e2cu, xerr= cu25VUcerr, yerr= Ie2cuerr, color='cornflowerblue', marker='+',capsize=2,  linestyle='none', label= 'U = 25kV')
 plt.errorbar(Cu35000V100mAUc, I_e3cu, xerr= cu35VUcerr, yerr= Ie3cuerr,color='midnightblue', marker='+',capsize=2,  linestyle='none', label= 'U = 35kV' )
 ax.set(ylabel='Ionisationsstrom $I_C$/nA', xlabel='Kondensatorspannung $U_C$/V')
 
@@ -131,10 +134,10 @@ fig.savefig('P5\\529\\cuionisationsstrom.pdf')
 plt.show
 
 t= 23+273.15
-terr = 1
+terr = 1.5
 p = 1006
 perr = 3
-V= 1.24*10**(-4)
+V= 1.25*10**(-4)
 ro0= 1.293
 p0=1013
 t0=273
@@ -149,7 +152,7 @@ Mb35000V279dot8VUcUE = np.array([0.55, 1.03, 1.51, 1.98, 2.45, 2.92, 3.41, 3.86,
 jmoi = np.zeros(len(Mb35000V279dot8VUcUE))
 for i in range (0, len(Mb35000V279dot8VUcUE)):
     jmoi[i] = (Mb35000V279dot8VUcUE[i]/(1*10**9))/dm *10**6
-print(jmoi)
+#print(jmoi)
 
 moIerr = np.zeros(len(Mb35000V279dot8VUcI))
 for i in range (0, len(Mb35000V279dot8VUcI)):
@@ -166,7 +169,7 @@ Mb100mA279dot8VUcUE = np.array([0.05, 0.05, 0.05, 0.05, 0.07, 0.16, 0.34, 0.6, 1
 jmou = np.zeros(len(Mb100mA279dot8VUcUE))
 for i in range (0, len(Mb100mA279dot8VUcUE)):
     jmou[i] = (Mb100mA279dot8VUcUE[i]/(1*10**9))/dm *10**6
-print(jmou)
+#print(jmou)
 
 moUerr = np.zeros(len(Mb100mA279dot8VUcU))
 for i in range (0, len(Mb100mA279dot8VUcU)):
@@ -184,7 +187,7 @@ Cu35000V278dot8VUcUE = np.array([0.54, 1.02, 1.50, 1.95, 2.4, 2.85, 3.27, 3.68, 
 jcui = np.zeros(len(Cu35000V278dot8VUcUE))
 for i in range (0, len(Cu35000V278dot8VUcUE)):
     jcui[i] = (Cu35000V278dot8VUcUE[i]/(1*10**8))/dm *10**6
-print(jcui)
+#print(jcui)
 
 cuIerr = np.zeros(len(Cu35000V278dot8VUcI))
 for i in range (0, len(Cu35000V278dot8VUcI)):
@@ -202,7 +205,7 @@ Cu100mA278dot8VUcUE = np.array([0.02, 0.02, 0.04, 0.15, 0.39, 0.72, 1.14, 1.56, 
 jcuu = np.zeros(len(Cu100mA278dot8VUcUE))
 for i in range (0, len(Cu100mA278dot8VUcUE)):
     jcuu[i] = (Cu100mA278dot8VUcUE[i]/(1*10**8))/dm *10**6
-print(jcuu)
+#print(jcuu)
 
 cuUerr = np.zeros(len(Cu100mA278dot8VUcU))
 for i in range (0, len(Cu100mA278dot8VUcU)):
@@ -212,95 +215,99 @@ jcuuerr = np.zeros(len(jcuu))
 for i in range(0, len(jcuu)):
     jcuuerr[i] = np.sqrt((((Cu100mA278dot8VUcUE[i]*0.05)/(1*10**8))/dm)**2 + (((Cu100mA278dot8VUcUE[i])/(1*10**8)*dmerr)/(dm**2))**2) * 10**6
 
-
-# def ionenzuequi(j):
-#     """
-#     Returns temperature in Celsius given Fahrenheit temperature.
-#     """
-#     return j * 32,4
+print( Cu100mA278dot8VUcU, jcuu, jcuuerr)
 
 
-# def make_plot():
-
-#     # Define a closure function to register as a callback
-#     def convert_ax_c_to_sievert(ax_f):
-#         """
-#         Update second axis according to first axis.
-#         """
-#         y1, y2 = ax_f.get_ylim()
-#         ax_c.set_ylim(ionenzuequi(y1*10**3), ionenzuequi(y2))
-#         ax_c.figure.canvas.draw()
-
-#     fig, ax_f = plt.subplots()
-#     ax_c = ax_f.twinx()
-
-#     # automatically update ylim of ax2 when ylim of ax1 changes.
-#     ax_f.callbacks.connect("ylim_changed", convert_ax_c_to_sievert)
-#     plt.grid()   
-#     plt.errorbar(Cu35000V278dot8VUcI, jcui, xerr= cuIerr, yerr= jcuierr, color='rebeccapurple', marker='+',capsize=2,  linestyle='none', label= 'Kupfer')
-#     plt.errorbar(Mb35000V279dot8VUcI, jmoi, xerr= moIerr, yerr= jmoierr,color='slateblue', marker='+',capsize=2,  linestyle='none', label= 'Molybdän' )
-#     #ax_f.plot(np.linspace(-40, 120, 100))
-#     #ax_f.set_xlim(0, 100)
-
-#     #ax_f.set_title('Two scales: Fahrenheit and Celsius')
-#     ax_f.set_ylabel('mittlere Ionendosisleistung <$j$>/ $\mu$Akg$^{-1}$')
-#     ax_c.set_ylabel('Äquivalenzdosis $\mu$Svs$^{-1}$')
-#     ax.set_xlabel('Emissionsstrom $I_E$/mA')
-#     ax.legend()
-
-#     fig.savefig('P5\\529\\dosisstrom.pdf')
-
-#     plt.show()
-
-#     fig, ax_f = plt.subplots()
-#     ax_c = ax_f.twinx()
-
-#     # automatically update ylim of ax2 when ylim of ax1 changes.
-#     ax_f.callbacks.connect("ylim_changed", convert_ax_c_to_sievert)
-#     plt.grid()   
-#     plt.errorbar(Cu100mA278dot8VUcU, jcuu, xerr= cuUerr, yerr= jcuuerr, color='rebeccapurple', marker='+',capsize=2,  linestyle='none', label= 'Kupfer')
-#     plt.errorbar(Mb100mA279dot8VUcU, jmou, xerr= moUerr, yerr= jmouerr,color='slateblue', marker='+',capsize=2,  linestyle='none', label= 'Molybdän' )
-#     #ax_f.plot(np.linspace(-40, 120, 100))
-#     #ax_f.set_xlim(0, 100)
-
-#     #ax_f.set_title('Two scales: Fahrenheit and Celsius')
-#     ax_f.set_ylabel('mittlere Ionendosisleistung <$j$>/ $\mu$Akg$^{-1}$')
-#     ax_c.set_ylabel('Äquivalenzdosis $\mu$Svs$^{-1}$')
-#     ax.set_xlabel('Beschleunigungsspannung $U$/kV')
-#     ax.legend()
-
-#     fig.savefig('P5\\529\\dosisspannung.pdf')
-
-#     plt.show()
+def ionenzuequi(jcui):
+    """
+    Returns temperature in Celsius given Fahrenheit temperature.
+    """
+    return jcui * 32,4
 
 
+def make_plot():
 
-# #make_plot()
+    # Define a closure function to register as a callback
+    def convert_ax_c_to_sievert(ax_f):
+        """
+        Update second axis according to first axis.
+        """
+        y1, y2 = ax_f.get_ylim()
+        ax_c.set_ylim(ionenzuequi(y1*10**3), ionenzuequi(y2))
+        ax_c.figure.canvas.draw()
+
+    fig, ax_f = plt.subplots()
+    ax_c = ax_f.twinx()
+
+    # automatically update ylim of ax2 when ylim of ax1 changes.
+    ax_f.callbacks.connect("ylim_changed", convert_ax_c_to_sievert)
+    plt.grid()   
+    plt.errorbar(Cu35000V278dot8VUcI, jcui, xerr= cuIerr, yerr= jcuierr, color='rebeccapurple', marker='+',capsize=2,  linestyle='none', label= 'Kupfer')
+    plt.errorbar(Mb35000V279dot8VUcI, jmoi, xerr= moIerr, yerr= jmoierr,color='slateblue', marker='+',capsize=2,  linestyle='none', label= 'Molybdän' )
+    #ax_f.plot(np.linspace(-40, 120, 100))
+    #ax_f.set_xlim(0, 100)
 
 
-# fig, ax= plt.subplots()
+    ax_f.set_ylabel('mittlere Ionendosisleistung <$j$>/ $\mu$Akg$^{-1}$')
+    ax_c.set_ylabel('Äquivalenzdosis /$\mu$Svs$^{-1}$')
+    ax.set_xlabel('Emissionsstrom $I_E$/mA')
+    ax.legend()
 
-# plt.grid()   
+    fig.savefig('P5\\529\\dosisstrom.pdf')
 
-# plt.errorbar(Cu35000V278dot8VUcI, jcui, xerr= cuIerr, yerr= jcuierr, color='rebeccapurple', marker='+',capsize=2,  linestyle='none', label= 'Kupfer')
-# plt.errorbar(Mb35000V279dot8VUcI, jmoi, xerr= moIerr, yerr= jmoierr,color='slateblue', marker='+',capsize=2,  linestyle='none', label= 'Molybdän' )
-# ax.set(ylabel='mittlere Ionendosisleistung <$j$>/ $\mu$Akg$^{-1}$', xlabel='Emissionsstrom $I_E$/mA')
+    plt.show()
 
-# ax.legend()
+    fig, ax_f = plt.subplots()
+    ax_c = ax_f.twinx()
 
-# fig.savefig('P5\\529\\dosisstrom.pdf')
-# plt.show
+    # automatically update ylim of ax2 when ylim of ax1 changes.
+    ax_f.callbacks.connect("ylim_changed", convert_ax_c_to_sievert)
+    plt.grid()   
+    plt.errorbar(Cu100mA278dot8VUcU, jcuu, xerr= cuUerr, yerr= jcuuerr, color='rebeccapurple', marker='+',capsize=2,  linestyle='none', label= 'Kupfer')
+    plt.errorbar(Mb100mA279dot8VUcU, jmou, xerr= moUerr, yerr= jmouerr,color='slateblue', marker='+',capsize=2,  linestyle='none', label= 'Molybdän' )
+    #ax_f.plot(np.linspace(-40, 120, 100))
+    #ax_f.set_xlim(0, 100)
+
+    #ax_f.set_title('Two scales: Fahrenheit and Celsius')
+    ax_f.set_ylabel('mittlere Ionendosisleistung <$j$>/ $\mu$Akg$^{-1}$')
+    ax_c.set_ylabel('Äquivalenzdosis /$\mu$Svs$^{-1}$')
+    ax.set_xlabel('Beschleunigungsspannung $U$/kV')
+    ax.legend()
+
+    fig.savefig('P5\\529\\dosisspannung.pdf')
+
+    plt.show()
+
+
+
+#make_plot()
+
 
 fig, ax= plt.subplots()
-plt.grid() 
-ax_1 = ax.twinx()  
-ax_1.errorbar(Cu100mA278dot8VUcU, jcuu, xerr= cuUerr, yerr= jcuuerr, color='rebeccapurple', marker='+',capsize=2,  linestyle='none', label= 'Kupfer')
-ax_1.errorbar(Mb100mA279dot8VUcU, jmou, xerr= moUerr, yerr= jmouerr,color='slateblue', marker='+',capsize=2,  linestyle='none', label= 'Molybdän' )
-ax.set(ylabel='mittlere Ionendosisleistung <$j$>/ $\mu$Akg$^{-1}$')
-ax.set(xlabel='Beschleunigungsspannung $U$/kV')
-ax_1.set(ylabel='<$h$>/ $mSv/s$')
-ax.set_ylim(-10/32.4*1000, 325/32.4*1000)
-ax_1.set_ylim(-10, 325)
-plt.legend()
-fig.savefig("P5\\529\\dosisspannung.pdf")
+
+plt.grid()   
+plt.errorbar(Cu35000V278dot8VUcI, jcui, xerr= cuIerr, yerr= jcuierr, color='orchid', marker='+',capsize=2,  linestyle='none', label= 'Kupfer')
+plt.errorbar(Mb35000V279dot8VUcI, jmoi, xerr= moIerr, yerr= jmoierr,color='midnightblue', marker='+',capsize=2,  linestyle='none', label= 'Molybdän' )
+ax.set(ylabel='mittlere Ionendosisleistung <$j$>/ $\mu$Akg$^{-1}$', xlabel='Emissionsstrom $I_E$/mA')
+ax_1 = ax.twinx()
+ax_1. set(ylabel='Äquivalenzdosis <$h$>/mSvs$^{-1}$')
+ax.set_ylim(-10, 325)
+ax_1.set_ylim(-10/1000*32.4, 325/1000*32.4)
+ax.legend()
+fig.savefig('P5\\529\\dosisstrom.pdf')
 plt.show
+
+fig, ax= plt.subplots()
+
+plt.grid()   
+plt.errorbar(Cu100mA278dot8VUcU, jcuu, xerr= cuUerr, yerr= jcuuerr, color='orchid', marker='+',capsize=2,  linestyle='none', label= 'Kupfer')
+plt.errorbar(Mb100mA279dot8VUcU, jmou, xerr= moUerr, yerr= jmouerr,color='midnightblue', marker='+',capsize=2,  linestyle='none', label= 'Molybdän' )
+ax.set(ylabel='mittlere Ionendosisleistung <$j$>/ $\mu$Akg$^{-1}$', xlabel='Beschleunigungsspannung $U$/kV')
+ax_1 = ax.twinx()
+ax_1. set(ylabel='Äquivalenzdosis <$h$>/mSvs$^{-1}$')
+ax.set_ylim(-10, 325)
+ax_1.set_ylim(-10/1000*32.4, 325/1000*32.4)
+ax.legend()
+fig.savefig('P5\\529\\dosisspannung.pdf')
+
+#plt.show
