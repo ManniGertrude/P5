@@ -1,4 +1,4 @@
-Diese Datei erklärt alphabetisch den Aufbau dieses Ordners in https://github.com/ManniGertrude/P5/tree/main/529, der für den Versuch 529 des P5-Physik Praktikums der Universität Bonn
+Diese Datei erklärt den Aufbau dieses Ordners in https://github.com/ManniGertrude/P5/tree/main/529, der für den Versuch 529 des P5-Physik Praktikums der Universität Bonn
 
 
 - "Dosimetrie.py" erzeugt "Moionisationsstrom.pdf" und "cuionisationsstrom.pdf", welche für jeweils die Molybdän- und Kupferanode den Ionisationsstrom gegen die Kondensatorspannung auftragen
@@ -13,3 +13,5 @@ Diese Datei erklärt alphabetisch den Aufbau dieses Ordners in https://github.co
 - "Winkel.py" beinhaltet die Messwerte der Winkelvariation des GMZ und erzeugt die Gaus-Glockenkurve in "Winkel.pdf"
 
 - "final run.ct" beinhaltet die Messung des Frosches, welche im Protokoll genutzt wurde.
+
+- "stabdosimeter.csv" und "abstandsquadrat.csv" beinhaltet jeweils genutzte Daten im csv Format. Die Daten sind ebenfalls in "dosimetrie.ods" zu finden
