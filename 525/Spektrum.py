@@ -1,12 +1,7 @@
 import matplotlib.pyplot as plt
-import scipy.optimize as opt
-import scipy.odr as odr
-from scipy.optimize import curve_fit
-from scipy.integrate import quad
 import numpy as np
-import csv
-import os
 import pandas as pd
+from scipy.optimize import curve_fit 
 
 LBa1 = pd.read_csv("P5\\525\\Messungen\\Messung links Ba 1.csv", sep="\t",header=0, names=['x', 'y'])
 LBa1Name = ['Ba 1 links']
@@ -34,9 +29,26 @@ RNa511Name = ['Na 511 rechts']
 
 
 
+
+
+
+def gauss(x, H, A, x0, sigma): 
+    return H + A * np.exp(-(x - x0) ** 2 / (2 * sigma ** 2))
+
+
+
+
+
+
+
+
+
 ax, plt = plt.subplots()
 def Plot(data, Name):
+    parameters, covariance = curve_fit(gauss, data['x'], data['y']) 
+    fit_y = gauss(data['x'], parameters[0], parameters[1], parameters[2], parameters[3], bounds=([ , , , ], [ , , , ])) 
     plt.grid()
+    plt.plot(data['x'], fit_y)
     plt.scatter(data['x'], data['y'], color ='cornflowerblue', marker='+', label = Name[0])
     plt.set(xlabel='x', ylabel='y')
     plt.legend()
