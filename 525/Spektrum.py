@@ -27,12 +27,11 @@ from scipy.optimize import curve_fit
 # RNa511 = pd.read_csv("P5\\525\\Messungen\\Messung rechts Na 511.csv", sep="\t",header=0, names=['x', 'y'])
 # RNa511Name = ['Na 511 rechts']
 
-LfastBa= pd.read_csv("P5\\525\\Messungen\\Messung Ba fast links.csv", sep="\t",header=0, names=['x', 'y'])
-LfastBaName = ['Na 511 rechts']
+LfastBa= pd.read_csv("525\\Messungen\\Messung Ba fast links.csv", sep="\t",header=0, names=['x', 'y'])
+LfastBaName = ['Na 511 links']
 
-RfastBa = pd.read_csv("P5\\525\\Messungen\\Messung Ba fast rechts.csv", sep="\t",header=0, names=['x', 'y'])
+RfastBa = pd.read_csv("525\\Messungen\\Messung Ba fast rechts.csv", sep="\t",header=0, names=['x', 'y'])
 RfastBaName = ['Na 511 rechts']
-
 
 
 
@@ -53,10 +52,10 @@ def Plot(data, Name):
     # fit_y = gauss(data['x'], parameters[0], parameters[1], parameters[2], parameters[3], bounds=([ , , , ], [ , , , ])) 
     plt.grid()
     # plt.plot(data['x'], fit_y)
-    plt.scatter(data['x'], data['y'], color ='cornflowerblue', marker='+', label = Name[0])
+    plt.scatter(data['x'], data['y'], color ='cornflowerblue', marker='.', label = Name[0])
     plt.set(xlabel='x', ylabel='y')
     plt.legend()
-    ax.savefig(f'P5\\525\\{Name[0]}.pdf')
+    ax.savefig(f'525\\{Name}.pdf')
     ax.show
     plt.cla()
 
