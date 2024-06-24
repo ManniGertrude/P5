@@ -43,90 +43,90 @@ def gausfit(func, x, y, farbe, beta):
 
 
 
-# # Plot für alle
+# Plot für alle
 
-# for dateiname in os.listdir(path):
-#     if os.path.isfile(os.path.join(path, dateiname)):
-#         Data = pd.read_csv(f'{path}\\{dateiname}', sep="\t",header=0, names=['x', 'y'])
-#         Plot(Data, dateiname)
-
-
-
-# # Fünf Dinger in einem
-
-# FünfNamen = ['Messung Na Promt 0ns', 'Messung Na Promt 16ns', 'Messung Na Promt 32ns', 'Messung Na Promt 48ns', 'Messung Na Promt 64ns']
-# FünfFarben = ['darkslategrey', 'mediumorchid', 'firebrick', 'burlywood', 'cornflowerblue']
-# LaufAdler = []
-# for i in range(len(FünfNamen)):
-#     fünf = pd.read_csv(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\Messungen\\csv\\{FünfNamen[i]}.csv', sep="\t",header=0, names=['x', 'y'])
-#     plt.grid()
-#     plt.scatter(fünf['x'], fünf['y'], color =FünfFarben[i], marker='.', s=2)
-#     plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
-#     beta = [9000, 800, 50]
-#     gausfit(gaus, fünf['x'], fünf['y'], FünfFarben[i], beta)
-# plt.set_xlim(0, 1750)
-# ax.savefig(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\pdf\\Na Prompt.pdf')
-# plt.cla()
+for dateiname in os.listdir(path):
+    if os.path.isfile(os.path.join(path, dateiname)):
+        Data = pd.read_csv(f'{path}\\{dateiname}', sep="\t",header=0, names=['x', 'y'])
+        Plot(Data, dateiname)
 
 
 
-# # zwo Energiespektren Gaus
+# Fünf Dinger in einem
 
-# FünfNamen = ['Messung links Na 2', 'Messung rechts Na 2']
-# FünfFarben = ['darkslategrey', 'darkslategrey', 'firebrick', 'firebrick']
-# LaufAdler = []
-# for i in range(len(FünfNamen)):
-#     fünf = pd.read_csv(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\Messungen\\csv\\{FünfNamen[i]}.csv', sep="\t",header=0, names=['x', 'y'])
-#     plt.grid()
-#     plt.scatter(fünf['x'], fünf['y'], color =FünfFarben[i], marker='.', s=2)
-#     plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
-#     beta = [50000, 7000, 50]
-#     beta1 = [5000, 3000, 250]
-#     out = gausfit(gaus, fünf['x'][6000:], fünf['y'][6000:], FünfFarben[i+2], beta)
-#     gausfit(gaus, fünf['x'][:6000], fünf['y'][:6000], FünfFarben[i+2], beta1)
-#     out1 = gausfit(gaus, fünf['x'][:6000], fünf['y'][:6000], FünfFarben[i+2], beta1)
-#     plt.plot(fünf['x'], (gaus(out.beta, fünf['x'])+gaus(out1.beta, fünf['x'])), c=FünfFarben[i+2], label='Lineare Anpassung')
-#     ax.savefig(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\pdf\\{FünfNamen[i]}Fit.pdf')
-#     plt.cla()
+FünfNamen = ['Messung Na Promt 0ns', 'Messung Na Promt 16ns', 'Messung Na Promt 32ns', 'Messung Na Promt 48ns', 'Messung Na Promt 64ns']
+FünfFarben = ['darkslategrey', 'mediumorchid', 'firebrick', 'burlywood', 'cornflowerblue']
+LaufAdler = []
+for i in range(len(FünfNamen)):
+    fünf = pd.read_csv(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\Messungen\\csv\\{FünfNamen[i]}.csv', sep="\t",header=0, names=['x', 'y'])
+    plt.grid()
+    plt.scatter(fünf['x'], fünf['y'], color =FünfFarben[i], marker='.', s=2)
+    plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
+    beta = [9000, 800, 50]
+    gausfit(gaus, fünf['x'], fünf['y'], FünfFarben[i], beta)
+plt.set_xlim(0, 1750)
+ax.savefig(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\pdf\\Na Prompt.pdf')
+plt.cla()
 
 
 
+# zwo Energiespektren Gaus
 
-# # 511, 81 und 356 linien fit
-
-# FünfNamen = ['Messung Ba 81 rechts', 'Messung Ba 356 links', 'Messung rechts Na 511', 'Messung links Na 511']
-# FünfFarben = ['darkslategrey', 'firebrick']
-# LaufAdler = []
-# for i in range(len(FünfNamen)):
-#     fünf = pd.read_csv(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\Messungen\\csv\\{FünfNamen[i]}.csv', sep="\t",header=0, names=['x', 'y'])
-#     plt.grid()
-#     plt.scatter(fünf['x'], fünf['y'], color =FünfFarben[0], marker='.', s=2)
-#     plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
-#     keke = [1200, 4500, 7500, 7500]
-#     beta = [50000, keke[i] , 50]
-#     out = gausfit(gaus, fünf['x'], fünf['y'], FünfFarben[1], beta)
-#     plt.plot(fünf['x'], gaus(out.beta, fünf['x']), c=FünfFarben[1], label='Lineare Anpassung')
-#     ax.savefig(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\pdf\\{FünfNamen[i]} Fit.pdf')
-#     plt.cla()
+FünfNamen = ['Messung links Na 2', 'Messung rechts Na 2']
+FünfFarben = ['darkslategrey', 'darkslategrey', 'firebrick', 'firebrick']
+LaufAdler = []
+for i in range(len(FünfNamen)):
+    fünf = pd.read_csv(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\Messungen\\csv\\{FünfNamen[i]}.csv', sep="\t",header=0, names=['x', 'y'])
+    plt.grid()
+    plt.scatter(fünf['x'], fünf['y'], color =FünfFarben[i], marker='.', s=2)
+    plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
+    beta = [50000, 7000, 50]
+    beta1 = [5000, 3000, 250]
+    out = gausfit(gaus, fünf['x'][6000:], fünf['y'][6000:], FünfFarben[i+2], beta)
+    gausfit(gaus, fünf['x'][:6000], fünf['y'][:6000], FünfFarben[i+2], beta1)
+    out1 = gausfit(gaus, fünf['x'][:6000], fünf['y'][:6000], FünfFarben[i+2], beta1)
+    plt.plot(fünf['x'], (gaus(out.beta, fünf['x'])+gaus(out1.beta, fünf['x'])), c=FünfFarben[i+2], label='Lineare Anpassung')
+    ax.savefig(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\pdf\\{FünfNamen[i]}Fit.pdf')
+    plt.cla()
 
 
 
 
-# # SCA und CFD Vergleich
+# 511, 81 und 356 linien fit
 
-# FünfNamen = ['Messung Ba fast links', 'Messung Ba fast links 2', 'Messung Ba fast rechts', 'Messung Ba fast rechts 2']
-# FünfFarben = ['darkslategrey', 'firebrick']
-# LaufAdler = []
-# for i in range(2):
-#     fünf = pd.read_csv(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\Messungen\\csv\\{FünfNamen[2*i]}.csv', sep="\t",header=0, names=['x', 'y'])
-#     sechs = pd.read_csv(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\Messungen\\csv\\{FünfNamen[2*i+1]}.csv', sep="\t",header=0, names=['x', 'y'])
-#     plt.grid()
-#     plt.scatter(fünf['x'], fünf['y'], color =FünfFarben[0], marker='.', s=2)
-#     plt.scatter(sechs['x'], sechs['y'], color =FünfFarben[1], marker='.', s=2)
-#     plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
-#     # plt.set_xlim(0, 1750)
-#     ax.savefig(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\pdf\\{FünfNamen[2*i][:-1]} Fit.pdf')
-#     plt.cla()
+FünfNamen = ['Messung Ba 81 rechts', 'Messung Ba 356 links', 'Messung rechts Na 511', 'Messung links Na 511']
+FünfFarben = ['darkslategrey', 'firebrick']
+LaufAdler = []
+for i in range(len(FünfNamen)):
+    fünf = pd.read_csv(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\Messungen\\csv\\{FünfNamen[i]}.csv', sep="\t",header=0, names=['x', 'y'])
+    plt.grid()
+    plt.scatter(fünf['x'], fünf['y'], color =FünfFarben[0], marker='.', s=2)
+    plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
+    keke = [1200, 4500, 7500, 7500]
+    beta = [50000, keke[i] , 50]
+    out = gausfit(gaus, fünf['x'], fünf['y'], FünfFarben[1], beta)
+    plt.plot(fünf['x'], gaus(out.beta, fünf['x']), c=FünfFarben[1], label='Lineare Anpassung')
+    ax.savefig(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\pdf\\{FünfNamen[i]} Fit.pdf')
+    plt.cla()
+
+
+
+
+# SCA und CFD Vergleich
+
+FünfNamen = ['Messung Ba fast links', 'Messung Ba fast links 2', 'Messung Ba fast rechts', 'Messung Ba fast rechts 2']
+FünfFarben = ['darkslategrey', 'firebrick']
+LaufAdler = []
+for i in range(2):
+    fünf = pd.read_csv(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\Messungen\\csv\\{FünfNamen[2*i]}.csv', sep="\t",header=0, names=['x', 'y'])
+    sechs = pd.read_csv(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\Messungen\\csv\\{FünfNamen[2*i+1]}.csv', sep="\t",header=0, names=['x', 'y'])
+    plt.grid()
+    plt.scatter(fünf['x'], fünf['y'], color =FünfFarben[0], marker='.', s=2)
+    plt.scatter(sechs['x'], sechs['y'], color =FünfFarben[1], marker='.', s=2)
+    plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
+    # plt.set_xlim(0, 1750)
+    ax.savefig(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\pdf\\{FünfNamen[2*i][:-1]} Fit.pdf')
+    plt.cla()
 
 
 
