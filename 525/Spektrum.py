@@ -1,9 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from scipy import special
 from scipy.optimize import curve_fit 
 import os
 import scipy.odr as odr
+import math
 from sklearn.metrics import r2_score
 
 # path = "C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\Messungen\\csv" # PC
@@ -14,7 +16,7 @@ def Plot(data, Name):
     plt.grid()
     plt.scatter(data['x'], data['y'], color ='cornflowerblue', marker='.', s=2)
     plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
-    ax.savefig(f'C:\\Users\\Surface Pro 7 Manni\\Desktop\\Code Dateien\\Github\\P5\\525\\pdf\\{Name[:-4]}.pdf')
+    ax.savefig(f'C:\\Users\\Surface Pro 7 Manni\\Desktop\\Code Dateien\\P5\\525\\pdf\\{Name[:-4]}.pdf')
     ax.show
     plt.cla()
 
@@ -36,7 +38,9 @@ def gausfit(func, x, y, farbe, beta):
     # out.pprint()
     print('$Parameter:', out.beta, out.sd_beta,  '$')
     print('$R_{lin}^2 =',rsquared, '$')
-    plt.plot(x, fy, c=farbe, label='Lineare Anpassung')
+    print('x', x)
+    print('fy', fy)
+    plt.plot(x, fy)# , c=farbe, label='Lineare Anpassung'
     return out
 
 
@@ -96,10 +100,10 @@ def gausfit(func, x, y, farbe, beta):
 # # 511, 81 und 356 linien fit
 
 # FünfNamen = ['Messung Ba 81 rechts', 'Messung Ba 356 links', 'Messung rechts Na 511', 'Messung links Na 511']
-# FünfFarben = ['darkslategrey', 'firebrick']
+# FünfFarben = ['orchid', 'navy']
 # LaufAdler = []
 # for i in range(len(FünfNamen)):
-#     fünf = pd.read_csv(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\Messungen\\csv\\{FünfNamen[i]}.csv', sep="\t",header=0, names=['x', 'y'])
+#     fünf = pd.read_csv(f'C:\\Users\\Surface Pro 7 Manni\\Desktop\\Code Dateien\\P5\\525\\Messungen\\csv\\{FünfNamen[i]}.csv', sep="\t",header=0, names=['x', 'y'])
 #     plt.grid()
 #     plt.scatter(fünf['x'], fünf['y'], color =FünfFarben[0], marker='.', s=2)
 #     plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
@@ -107,27 +111,52 @@ def gausfit(func, x, y, farbe, beta):
 #     beta = [50000, keke[i] , 50]
 #     out = gausfit(gaus, fünf['x'], fünf['y'], FünfFarben[1], beta)
 #     plt.plot(fünf['x'], gaus(out.beta, fünf['x']), c=FünfFarben[1], label='Lineare Anpassung')
-#     ax.savefig(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\pdf\\{FünfNamen[i]} Fit.pdf')
+#     ax.savefig(f'C:\\Users\\Surface Pro 7 Manni\\Desktop\\Code Dateien\\P5\\525\\pdf\\{FünfNamen[i]} Fit.pdf')
 #     plt.cla()
 
 
 
 
-# SCA und CFD Vergleich
+# # SCA und CFD Vergleich
 
-FünfNamen = ['Messung Ba fast links', 'Messung Ba fast links 2', 'Messung Ba fast rechts', 'Messung Ba fast rechts 2']
-FünfFarben = ['steelblue', 'goldenrod']
-LaufAdler = []
-for i in range(2):
-    fünf = pd.read_csv(f'C:\\Users\\Surface Pro 7 Manni\\Desktop\\Code Dateien\\P5\\525\\Messungen\\csv\\{FünfNamen[2*i]}.csv', sep="\t",header=0, names=['x', 'y'])
-    sechs = pd.read_csv(f'C:\\Users\\Surface Pro 7 Manni\\Desktop\\Code Dateien\\P5\\525\\Messungen\\csv\\{FünfNamen[2*i+1]}.csv', sep="\t",header=0, names=['x', 'y'])
-    plt.grid()
-    plt.scatter(fünf['x'], fünf['y'], color =FünfFarben[0], marker='.', s=2, label='Ohne CFD Wert' )
-    plt.scatter(sechs['x'], sechs['y'], color =FünfFarben[1], marker='.', s=2, label='Mit CFD Wert')
-    plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
-    plt.legend()
-    ax.savefig(f'C:\\Users\\Surface Pro 7 Manni\\Desktop\\Code Dateien\\P5\\525\\pdf\\{FünfNamen[2*i][:-1]} Fit.pdf')
-    plt.cla()
+# FünfNamen = ['Messung Ba fast links', 'Messung Ba fast links 2', 'Messung Ba fast rechts', 'Messung Ba fast rechts 2']
+# FünfFarben = ['steelblue', 'goldenrod']
+# LaufAdler = []
+# for i in range(2):
+#     fünf = pd.read_csv(f'C:\\Users\\Surface Pro 7 Manni\\Desktop\\Code Dateien\\P5\\525\\Messungen\\csv\\{FünfNamen[2*i]}.csv', sep="\t",header=0, names=['x', 'y'])
+#     sechs = pd.read_csv(f'C:\\Users\\Surface Pro 7 Manni\\Desktop\\Code Dateien\\P5\\525\\Messungen\\csv\\{FünfNamen[2*i+1]}.csv', sep="\t",header=0, names=['x', 'y'])
+#     plt.grid()
+#     plt.scatter(fünf['x'], fünf['y'], color =FünfFarben[0], marker='.', s=2, label='Ohne CFD Wert' )
+#     plt.scatter(sechs['x'], sechs['y'], color =FünfFarben[1], marker='.', s=2, label='Mit CFD Wert')
+#     plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
+#     plt.legend()
+#     ax.savefig(f'C:\\Users\\Surface Pro 7 Manni\\Desktop\\Code Dateien\\P5\\525\\pdf\\{FünfNamen[2*i][:-1]} Fit.pdf')
+#     plt.cla()
+
+
+
+# CFD Schwelle
+
+Namen = ['Messung Ba fast links 2', 'Messung Ba fast rechts 2']
+Farbe = ['steelblue', 'goldenrod']
+
+def Erff(Para, x):
+    return Para[0] * special.erf((x - Para[1])/Para[2]+1)
+     
+
+data = pd.read_csv(f'C:\\Users\\Surface Pro 7 Manni\\Desktop\\Code Dateien\\P5\\525\\Messungen\\csv\\{Namen[0]}.csv', sep="\t",header=0, names=['x', 'y'])
+plt.grid()
+plt.scatter(data['x'], data['y'], color =Farbe[0], marker='.', s=2, label='Werte')
+xWerte = np.linspace(0, 1000, 100)
+beta = [1.0, 1.0, 1.0]
+yWerte = gausfit(Erff, data['x'], data['y'], Farbe[1], beta)
+plt.plot(xWerte, yWerte, color =Farbe[1])
+plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
+plt.legend()
+ax.savefig(f'C:\\Users\\Surface Pro 7 Manni\\Desktop\\Code Dateien\\P5\\525\\pdf\\{Namen[0]} Fit nah.pdf')
+plt.cla()
+
+
 
 
 
