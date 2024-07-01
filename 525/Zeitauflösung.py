@@ -9,6 +9,7 @@ import math
 from sklearn.metrics import r2_score
 
 
+
 x = np.array([0, 16, 32, 48, 64])
 y = np.array([247.9, 518.5, 798.3, 1078, 1271.2])
 xErr = np.array([0.5, 0.5, 0.5, 0.5, 0.5])
@@ -18,7 +19,7 @@ def func(Para, x):
     return Para[0] * x + Para[1]
  
 model = odr.Model(func)
-mydata = odr.RealData(x, y, sx = xErr, sy = yErr)
+mydata = odr.RealData(x, y)# , sx = xErr, sy = yErr
 myodr = odr.ODR(mydata, model, beta0=[1., 1.], maxit=1000)
 out = myodr.run()
 

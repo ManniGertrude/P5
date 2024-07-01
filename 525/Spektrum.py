@@ -169,16 +169,63 @@ def gausfit(func, x, y, farbe, beta, Name):
 
 
 def Rfunc(Para, x):
-    return Para[0]*np.exp(-Para[1]*(x - Para[2]))
+    return Para[0]*np.exp(-Para[1]*x)
+
+
+data = pd.read_csv(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\Messungen\\csv\\Messung Lebensdauer.csv', sep="\t",header=0, names=['x', 'y'])
+
+plt.grid()
+beta = [120, 1e-3]
+out = gausfit(Rfunc, data['x'][1500:3000], data['y'][1500:3000], 'navy', beta, 'Lebenszeitkurve')
+plt.scatter(data['x'][1000:3000], data['y'][1000:3000], color='darkolivegreen', marker='.', s=2, label='Messwerte')
+plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
+plt.legend()
+ax.savefig('C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\pdf\\Lebensdauer Fit 1500-3000.pdf')
+plt.cla()
 
 
 data = pd.read_csv(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\Messungen\\csv\\Messung Lebensdauer.csv', sep="\t",header=0, names=['x', 'y'])
 plt.grid()
-beta = [120, 1e-3, 1500]
-out = gausfit(Rfunc, data['x'][1500:3000], data['y'][1500:3000], 'firebrick', beta, 'Lebenszeitkurve')
-plt.scatter(data['x'][1000:3000], data['y'][1000:3000], color='indigo', marker='.', s=2)
+beta = [120, 1e-3]
+out = gausfit(Rfunc, data['x'][1650:3000], data['y'][1650:3000], 'navy', beta, 'Lebenszeitkurve')
+plt.scatter(data['x'][1000:3000], data['y'][1000:3000], color='darkolivegreen', marker='.', s=2, label='Messwerte')
 plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
-# plt.set_xlim(0, 1750)
 plt.legend()
-ax.savefig('C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\pdf\\Lebensdauer Fit.pdf')
+ax.savefig('C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\pdf\\Lebensdauer Fit 1650-3000.pdf')
 plt.cla()
+
+
+data = pd.read_csv(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\Messungen\\csv\\Messung Lebensdauer.csv', sep="\t",header=0, names=['x', 'y'])
+plt.grid()
+beta = [120, 1e-3]
+out = gausfit(Rfunc, data['x'][1800:3000], data['y'][1800:3000], 'navy', beta, 'Lebenszeitkurve')
+plt.scatter(data['x'][1000:3000], data['y'][1000:3000], color='darkolivegreen', marker='.', s=2, label='Messwerte')
+plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
+plt.legend()
+ax.savefig('C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\pdf\\Lebensdauer Fit 1800-3000.pdf')
+plt.cla()
+
+
+data = pd.read_csv(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\Messungen\\csv\\Messung Lebensdauer.csv', sep="\t",header=0, names=['x', 'y'])
+plt.grid()
+beta = [120, 1e-3]
+out = gausfit(Rfunc, data['x'][1950:3000], data['y'][1950:3000], 'navy', beta, 'Lebenszeitkurve')
+plt.scatter(data['x'][1000:3000], data['y'][1000:3000], color='darkolivegreen', marker='.', s=2, label='Messwerte')
+plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
+plt.legend()
+ax.savefig('C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\pdf\\Lebensdauer Fit 1950-3000.pdf')
+plt.cla()
+
+
+data = pd.read_csv(f'C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\Messungen\\csv\\Messung Lebensdauer.csv', sep="\t",header=0, names=['x', 'y'])
+plt.grid()
+beta = [120, 1e-3]
+out = gausfit(Rfunc, data['x'][2100:3000], data['y'][2100:3000], 'navy', beta, 'Lebenszeitkurve')
+plt.scatter(data['x'][1000:3000], data['y'][1000:3000], color='darkolivegreen', marker='.', s=2, label='Messwerte')
+plt.set(xlabel='Kanalnummer', ylabel='Anzahl an Messergebnissen')
+plt.legend()
+ax.savefig('C:\\Users\\kontr\\Desktop\\Github\\P5\\525\\pdf\\Lebensdauer Fit 2100-3000.pdf')
+plt.cla()
+
+# print(np.log(2)/(16.4*(out.beta[1])))
+# print(np.log(2)*np.sqrt((16.4 * out.sd_beta[1])**2 + (0.6*out.beta[1])**2)/(16.4*(out.beta[1]))**2)
