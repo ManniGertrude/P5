@@ -27,9 +27,9 @@ def gausfit(func, x, y, farbe, beta, Name):
     out = myodr.run()
     fy = func(out.beta, x)
     plt.plot(x, fy, c=farbe, label=Name)
-    # print(f'$Parameter {i+1}:', out.beta, out.sd_beta,  '$')
-    # print('$R^2 =', r2_score(y, fy), '$')
-    # print()
+    print(f'$Parameter {i+1}:', out.beta, out.sd_beta,  '$')
+    print('$R^2 =', r2_score(y, fy), '$')
+    print()
     return out.beta
 
 ax, plt = plt.subplots()
