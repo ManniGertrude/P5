@@ -30,7 +30,7 @@ def gausfit(func, x, y, farbe, beta, Name):
     # print(f'$Parameter {i+1}:', out.beta, out.sd_beta,  '$')
     # print('$R^2 =', r2_score(y, fy), '$')
     # print()
-    return out
+    return out.beta
 
 ax, plt = plt.subplots()
 
@@ -39,18 +39,22 @@ ax, plt = plt.subplots()
 
 Farbe = ['firebrick', 'sienna', 'darkgoldenrod', 'darkolivegreen', 'steelblue', 'orchid']
 Beta = [[44000, 300, 33], [10000, 600, 100], [80000, 900, 130], [10000, 2200, 1500], [40000, 3500, 10], [70000, 4000, 15]]
-Fenster = [180, 460, 460, 700, 700, 1100, 1100, 2800, 2800, 3600, 3600, 8000]
+Fenster = [180, 460, 460, 700, 700, 1100, 1100, 2800, 2800, 3600, 3600, 4500]
 
 for i in range(len(Farbe)):
-    # TempxData = np.where((xData > Fenster[2*i+1]) | (xData < Fenster[2*i]), 0, xData)
-    # TempyData = np.where((xData > Fenster[2*i+1]) | (xData < Fenster[2*i]), 0, yData)
+    TempxData = np.where((xData > Fenster[2*i+1]) | (xData < Fenster[2*i]), 0, xData)
+    TempyData = np.where((xData > Fenster[2*i+1]) | (xData < Fenster[2*i]), 0, yData)
     out = gausfit(gaus, xData[Fenster[2*i]:Fenster[2*i+1]], yData[Fenster[2*i]:Fenster[2*i+1]], Farbe[i], Beta[i], f'Gauskurve {i+1}')
-    # yWerte = yWerte + gaus(out.beta, TempxData)
+    yWerte = yWerte + gaus(out, xData)
 
 
 plt.scatter(xData, yData, s=2, c='navy', label='Messwerte')
-# plt.plot(xData, yWerte, c='black', label='Gauskurven' )
+plt.plot(xData, yWerte, c='black', label='Gauskurven' )
 plt.legend()
+plt.set_xticks(np.linspace(0, 8000, 17))
+plt.set_xticks(np.linspace(0, 8000, 81), minor=True, alpha=0.3)
+plt.set_xlim(-50, 4500)
+plt.set_ylim(-10, max(yData)*1.05)
 plt.axis()
 plt.grid()
 ax.savefig(f'{Path} Testspektrum 2')
