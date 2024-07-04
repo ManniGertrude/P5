@@ -45,11 +45,11 @@ for i in range(len(Farbe)):
     TempxData = np.where((xData > Fenster[2*i+1]) | (xData < Fenster[2*i]), 0, xData)
     TempyData = np.where((xData > Fenster[2*i+1]) | (xData < Fenster[2*i]), 0, yData)
     out = gausfit(gaus, xData[Fenster[2*i]:Fenster[2*i+1]], yData[Fenster[2*i]:Fenster[2*i+1]], Farbe[i], Beta[i], f'Gauskurve {i+1}')
-    yWerte = yWerte + gaus(out, xData)
+    # yWerte = yWerte + gaus(out, xData)
 
 
 plt.scatter(xData, yData, s=2, c='navy', label='Messwerte')
-plt.plot(xData, yWerte, c='black', label='Gauskurven' )
+# plt.plot(xData, yWerte, c='black', label='Gauskurven' )
 plt.legend()
 plt.set_xticks(np.linspace(0, 8000, 17))
 plt.set_xticks(np.linspace(0, 8000, 81), minor=True, alpha=0.3)
