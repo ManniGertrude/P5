@@ -2,53 +2,46 @@ import matplotlib.pyplot as plt
 import scipy.optimize as opt
 import scipy.odr as odr
 import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
+
 
 Punkte = 10000
-
-Radius = np.random.rand(Punkte)
-phi = 2 * np.pi * np.random.rand(Punkte)
-theta = np.pi * np.random.rand(Punkte)
-
-x = Radius * np.sin(theta) * np.cos(phi)
-y = Radius * np.sin(theta) * np.sin(phi)
-
-xWerte = []
-yWerte = []
-
-FxWerte = []
-FyWerte = []
-
 Maß = 0.5
-i = 0
 
-ax, plt=plt.subplots()
+phi = 2 * np.pi * np.random.rand(Punkte)
+theta = np.arccos(2 * np.random.rand(Punkte) - 1)
 
+x = np.sin(theta) * np.cos(phi)
+y = np.sin(theta) * np.sin(phi)
+z = np.cos(theta)
 
-xWerte = []
-yWerte = []
-FxWerte = []
-FyWerte = []
-RadiusWerte = []
+fig = plt.figure()
+fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
 
 for i in range(Punkte):
     if (x[i] < Maß and y[i] < Maß and x[i] > - Maß and y[i] > - Maß):
-        xWerte.append(x[i])
-        yWerte.append(y[i])
-        RadiusWerte.append(Radius[i])
+        ax.scatter(x[i], y[i], z[i], c='b', marker='.')
     else:
-        FxWerte.append(x[i])
-        FyWerte.append(y[i])
+        ax.scatter(x[i], y[i], z[i], c='r', marker='.')
 
-    
-    
-plt.scatter(FxWerte, FyWerte, s=5, c='b', marker='.')
-plt.scatter(xWerte, yWerte, s=5, c='r', marker='.')
-plt.set_xlim(-1,1)
-plt.set_ylim(-1, 1)
-plt.set_aspect('equal', adjustable='box')
-ax.savefig('Annika\\Kugel.pdf')
+
+
+
+
+plt.savefig('P5\\Annika\\Kugel.pdf')
+plt.show()
 plt.cla()
-plt.plot(RadiusWerte, xWerte)
-plt.plot(RadiusWerte, yWerte)
+# plt.hist(xWerte+yWerte+FxWerte+FyWerte, bins=100)
+# plt.hist(FxWerte+FyWerte, bins=100)
+# plt.savefig('P5\\Annika\\Kugelplot.pdf')
+# plt.cla()
 
-ax.savefig('Annika\\Kugelplot.pdf')
+
+
+
+
+
+
+
+
+
