@@ -1,10 +1,12 @@
-def ersetze_punkt_mit_komma(dateiname):
-    with open(dateiname, 'r') as datei:
-        inhalt = datei.read()
 
-    neuer_inhalt = inhalt.replace('.', ',')
+# simpler Code, der alle Punkte in dots.txt in Kommata tauscht
+def Ersetzer(dateiname):
+    with open(dateiname, 'r') as datei:
+        data = datei.read()
+
+    data_neu = data.replace('.', ',')
 
     with open(dateiname, 'w') as datei:
-        datei.write(neuer_inhalt)
+        datei.write(data_neu)
 
-ersetze_punkt_mit_komma('C:\\Users\\kontr\\Desktop\\Github\\P5\\521\\dots.txt')
+Ersetzer('C:\\Users\\kontr\\Desktop\\Github\\P5\\521\\dots.txt')

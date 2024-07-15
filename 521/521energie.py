@@ -4,7 +4,6 @@ from scipy.optimize import curve_fit
 from sklearn.metrics import r2_score
 
 data = np.loadtxt("C:\\Users\\Surface Pro 7 Manni\\Desktop\\Code Dateien\\P5\\521\\521energie.txt", dtype=str)
-#data = np.char.replace(data, ',', '.')
 data = data.astype(np.float64)
 array = np.split(data, 5, axis=1)
 
