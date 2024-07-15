@@ -8,12 +8,16 @@ import scipy.odr as odr
 import math
 from sklearn.metrics import r2_score
 
-Path = 'C:\\Users\\Surface Pro 7 Manni\\Desktop\\Code Dateien\\P5\\521\\'
-# Path = 'C:\\Users\\kontr\\Desktop\\Github\\P5\\521\\'
-data = pd.read_csv(f'{Path}spectrum.txt', sep='\t',header=0, names=['x', 'y'])
-xData = data['x'].values
-yData = data['y'].values
-yWerte = np.array(np.zeros(len(yData)))
+Path = 'C:\\Users\\kontr\\Desktop\\Github\\P5\\521\\'
+Path2 = 'C:\\Users\\kontr\\Desktop\\Github\\P5\\521\\Messungen\\MCA\\'
+
+Faktor = 1/9.366075
+udata = pd.read_csv(f'{Path2}LangzeitUntergrund.txt', sep=' ',header=0, names=['x', 'y'])
+bdata = pd.read_csv(f'{Path2}bodenprobe.txt', sep=' ',header=0, names=['x', 'y'])
+xData = bdata['x'].values[:-1]
+FakeyData1 = np.array(bdata['y'].values)[:-1]
+FakeyData2 = np.array(udata['y'].values)[:-1]
+yData = FakeyData1 - FakeyData2
 
 
 def gaus(Para, x): 
@@ -23,13 +27,14 @@ def gaus(Para, x):
 def gausfit(func, x, y, farbe, beta, Name):
     model = odr.Model(func)
     mydata = odr.RealData(x, y)
-    myodr = odr.ODR(mydata, model, beta0=beta, maxit=1000)
+    myodr = odr.ODR(mydata, model, beta0=beta)
     out = myodr.run()
     fy = func(out.beta, x)
-    plt.plot(x, fy, c=farbe, label=Name)
-    print(f'$Parameter {i+1}:', out.beta, out.sd_beta,  '$')
-    print('$R^2 =', r2_score(y, fy), '$')
-    print()
+    plt.plot(x, fy, c=farbe, label=Name, alpha = 0.7)
+    # print(f'$Gauskurve {i+1}:', out.beta, out.sd_beta,  '$')
+    print(f'{i+1}\t& {abs(out.beta[0]):.1f}$\pm${abs(out.sd_beta[0]):.1f} \t & {abs(Faktor*out.beta[1]):.1f}$\pm${abs(Faktor*out.sd_beta[1]):.1f} \t & {abs(out.beta[2]):.2f}$\pm${abs(Faktor*out.sd_beta[2]):.2f} \t & {abs(Faktor*out.beta[3]):.4f}$\pm${abs(Faktor*out.sd_beta[3]):.4f} \t & {abs(Faktor*out.beta[4]):.0f}$\pm${abs(out.sd_beta[4]):.0f} \t \\\\ ')
+    # print('$R^2 =', r2_score(y, fy), '$')
+    # print()
     return out.beta
 
 ax, plt = plt.subplots()
@@ -37,28 +42,58 @@ ax, plt = plt.subplots()
 
 # Gaus-Fits
 
-Farbe = ['firebrick', 'sienna', 'darkgoldenrod', 'darkolivegreen', 'steelblue', 'orchid']
-Beta = [[44000, 300, 33, 1, 1], [10000, 600, 100, 1, 1], [80000, 900, 130, 1, 1], [10000, 2200, 1500, 1, 1], [40000, 3500, 10, 1, 1], [70000, 4000, 15, 1, 1]]
-Fenster = [170, 480, 510, 690, 790, 1120, 1100, 2800, 2800, 3600, 3600, 4500]
+Farbe = ['firebrick', 'orangered','gold','lightgreen','seagreen' ,'steelblue',  'darkorchid', 'orchid', 'palevioletred']
+Beta = [[10000, 700, 15, 1, 1], 
+        [10000, 2300, 20, 0, 40], 
+        [10000, 3300, 20, 1, 30], 
+        [3000, 5455, 10, 0, 30], 
+        [5000, 5700, 10, 0, 30],
+        [5000, 8525, 10, 0, 30],  
+        [5000, 9045, 30, 0, 10], 
+        [2000, 11595, 20, 0, 20],  
+        [70000, 13700, 15, 1, 1]]
+Fenster = [600, 800, 
+           2100, 2500, 
+           3100, 3400, 
+           5420, 5530, 
+           5660, 5730, 
+           8450, 8600,
+           8950, 9160,
+           11550, 11650,
+           13600, 13800]
 
-for i in range(len(Farbe)):
+# # Fenster / Params des Röntgenpeaks
+# Beta = [[-25000, 3.5, 10, 0, 0]]
+# Fenster=[0, 200]
+
+for i in range(len(Beta)):
     TempxData = np.where((xData > Fenster[2*i+1]) | (xData < Fenster[2*i]), 0, xData)
     TempyData = np.where((xData > Fenster[2*i+1]) | (xData < Fenster[2*i]), 0, yData)
-    if i == 3:
-        yWerte = yWerte 
-    else:
-        out = gausfit(gaus, xData[Fenster[2*i]:Fenster[2*i+1]], yData[Fenster[2*i]:Fenster[2*i+1]], Farbe[i], Beta[i], f'Gauskurve {i+1}')
-        yWerte = yWerte + gaus(out, xData)
+    out = gausfit(gaus, xData[Fenster[2*i]:Fenster[2*i+1]], yData[Fenster[2*i]:Fenster[2*i+1]], Farbe[i], Beta[i], f'Gauskurve {i+1}')
 
+def Faktors(x):
+    return Faktor*x
 
-plt.scatter(xData, yData, s=2, c='navy', label='Messwerte')
-# plt.plot(xData, yWerte, c='lavender', label='Gauskurven' )
+plt.scatter(xData, yData, s=2, c='black', label='Messwerte')
 plt.legend()
-plt.set_xticks(np.linspace(0, 8000, 17))
-plt.set_xticks(np.linspace(0, 8000, 81), minor=True, alpha=0.3)
-plt.set_xlim(-50, 4500)
-plt.set_ylim(-10, max(yData)*1.05)
+
+
+
+# plt.set_ylim(0, max(yData)*1.05)
+
+plt.set_xticks(np.linspace(0, 16000, 9))
+plt.set_xticks(np.linspace(0, 16000, 33), minor=True)
+plt.tick_params(top=True, labeltop=True, bottom=False, labelbottom=False)
+plt.set_title('Kanalnummer', fontsize='large')
+plt.set_ylabel('Anzahl Messungen pro Kanal', fontsize='large')
+secax = plt.secondary_xaxis('bottom', functions=(Faktors, Faktors))
+secax.set_xlabel('Energie / keV', fontsize='large')
+secax.set_xticks(np.linspace(0, Faktor*16000, 9))
+secax.set_xticks(np.linspace(0, Faktor*16000, 33), minor=True)
+# plt.tick_params(axis='x', length=4, direction='in', width=4)
 plt.axis()
 plt.grid()
-ax.savefig(f'{Path} Testspektrum 3')
+plt.set_xlim(0, 80)
+ax.savefig(f'{Path}Boden Ohne.pdf')
 
+print(Faktor*4)

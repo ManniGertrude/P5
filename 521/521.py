@@ -9,8 +9,8 @@ import pandas as pd
 from sklearn.metrics import r2_score
 import os
 
-path2 = "C:\\Users\\Surface Pro 7 Manni\\Desktop\\Code Dateien\\P5\\521"
-path = "C:\\Users\\Surface Pro 7 Manni\\Desktop\\Code Dateien\\P5\\521\\Messungen\\MCA\\"
+path2 = "C:\\Users\\kontr\\Desktop\\Github\\P5\\521"
+path = "C:\\Users\\kontr\\Desktop\\Github\\P5\\521\\Messungen\\MCA\\"
 
 
 
@@ -23,7 +23,7 @@ def gaus(x,a,m,o,d,n ):
 
 #einlesen der daten des spektrum
 for filename in os.listdir(path):
-    if filename.endswith("eu_halbleiter.txt"):
+    if filename.endswith("bodenprobe.txt"):
         filepath = os.path.join(path, filename)
         with open(filepath, "r") as file:
             contents = np.loadtxt(file, dtype=str)
@@ -36,10 +36,10 @@ for filename in os.listdir(path):
             gesamt_anzahl_err = np.sqrt(np.sum(np.sqrt(np.abs(count)))**2)
             # print (f'gesamte Anzahl der gemessenen Anprecher: {gesamt_anzahl} $\pm$ {gesamt_anzahl_err}')
             #bereiche in denen die gauskurve angepasst wird mit p0 die vorgeschlagenen parameter
-            filter = [ 100,410,800, 2100,2600,3600,4000, 5000,7700, 8500,9900,10300,12500,16000]
+            filter = [ 0,500,750, 2100,2600,3600,4000, 5000,7700, 8500,9900,10300,12500,16000]
             farbedaten =['indianred', 'coral', 'gold', 'yellowgreen', 'skyblue', 'cornflowerblue', 'darkorchid']
             farbekurve = ['firebrick', 'orangered', 'darkgoldenrod','gold','olive','lightgreen','seagreen' ,'steelblue', 'navy', 'indigo', 'darkorchid', 'orchid', 'palevioletred']
-            p0 = [[ 2.03304213e+05 , 3.71688598e+02 , 1.38456210e+01,7.84246579e-10, -8.90528768e-08],[ 5.56899130e+04,4.23524500e+02,  1.18377925e+01,7.12436862e-01 ,-1.93711512e+02],[ 9.79580683e+04,1.13941589e+03,  9.45890009e+00,-1.55067637e-01,4.55232427e+02],[ 1.79514428e+04, 2.29024103e+03, 9.60253609e+00 ,-1.06668178e-01,3.57069826e+02],[ 4.84145138e+04 ,3.22296313e+03,  9.78905525e+00 ,-3.54271425e-02,1.79197585e+02],[ 3.42128205e+03 ,3.84861972e+03,9.88023154e+00,-1.21204734e-02,9.46506404e+01],[ 4.61144895e+03,4.15653146e+03,  9.62678806e+00 , 1.46982553e-03,4.02783531e+01],[ 1.21730768e+04,  7.29307431e+03,  1.02444988e+01, -5.36811075e-03,7.67028605e+01],[ 3.88002968e+03 , 8.12164193e+03,  1.06215365e+01, -7.58817548e-03,9.43820475e+01],[ 1.18501403e+04 , 9.02761648e+03,  1.06256436e+01, -1.05368309e-02,1.16226496e+02],[ 8.38334459e+03 , 1.01711696e+04,  1.30447228e+01 , 3.04789516e-03,-1.47811402e+01],[ 1.11815297e+04,1.04130546e+04,  1.25852538e+01 ,-3.04363068e-09,3.77571424e-05],[ 1.07814883e+04 , 1.31846092e+04,  7.77529581e+00  ,2.94144852e-10, -4.46244225e-06]]
+            p0 = [[ 1e4 , 400 , 20, 10, 50],[ 1e4 , 700 , 20, 0.1, 70],[ 9.79580683e+04,1.13941589e+03,  9.45890009e+00,-1.55067637e-01,4.55232427e+02],[ 1.79514428e+04, 2.29024103e+03, 9.60253609e+00 ,-1.06668178e-01,3.57069826e+02],[ 4.84145138e+04 ,3.22296313e+03,  9.78905525e+00 ,-3.54271425e-02,1.79197585e+02],[ 3.42128205e+03 ,3.84861972e+03,9.88023154e+00,-1.21204734e-02,9.46506404e+01],[ 4.61144895e+03,4.15653146e+03,  9.62678806e+00 , 1.46982553e-03,4.02783531e+01],[ 1.21730768e+04,  7.29307431e+03,  1.02444988e+01, -5.36811075e-03,7.67028605e+01],[ 3.88002968e+03 , 8.12164193e+03,  1.06215365e+01, -7.58817548e-03,9.43820475e+01],[ 1.18501403e+04 , 9.02761648e+03,  1.06256436e+01, -1.05368309e-02,1.16226496e+02],[ 8.38334459e+03 , 1.01711696e+04,  1.30447228e+01 , 3.04789516e-03,-1.47811402e+01],[ 1.11815297e+04,1.04130546e+04,  1.25852538e+01 ,-3.04363068e-09,3.77571424e-05],[ 1.07814883e+04 , 1.31846092e+04,  7.77529581e+00  ,2.94144852e-10, -4.46244225e-06]]
             b = []
             a =[]
             fig,ax = plt.subplots()
@@ -50,7 +50,7 @@ for filename in os.listdir(path):
                 err1 = np.sqrt(count1) + 0.00001
                 
                 
-                popt, pcov = curve_fit(gaus, kanal1, count1, p0=p0[i], sigma=err1, absolute_sigma=True, maxfev = 1000000)
+                popt, pcov = curve_fit(gaus, kanal1, count1, p0=p0[i], sigma=err1, absolute_sigma=True, maxfev = 1000)
                 perr = np.sqrt(np.diag(pcov))
                 a.append(popt)
                 b.append(perr)
@@ -64,7 +64,7 @@ for filename in os.listdir(path):
                 
                 plt.grid(zorder =1)
                 
-            ax.set(ylabel='Anzahl Ansprecher ', xlabel='Kanalnummer', title = 'Spektrum von $^{152}$Eu')
+            ax.set(ylabel='Anzahl Ansprecher ', xlabel='Kanalnummer', title = 'Bodenspektrum')
             ax.legend()
 
             fig.savefig(f"{path2}\\{filename}_einzeln.pdf")
@@ -75,7 +75,7 @@ for filename in os.listdir(path):
             # print (parameter)
 
             #einlesen der daten der untergrundmessung für den verwendeten detektor
-            data = np.loadtxt(f"{path}ohne_halbleiter.txt", dtype=str)
+            data = np.loadtxt(f"{path}LangzeitUntergrund.txt", dtype=str)
             data = data.astype(np.float64)
             array = np.split(data, 2, axis=1)
 
@@ -111,23 +111,24 @@ for filename in os.listdir(path):
                 
                 plt.grid(zorder =1)
                 
-            ax.set(ylabel='Anzahl Ansprecher ', xlabel='Kanalnummer', title = 'Spektrum von $^{152}$Eu ohne Untergrund')
+            ax.set(ylabel='Anzahl Ansprecher ', xlabel='Kanalnummer', title = 'Spektrum der Bodenprobe ohne Untergrund')
             ax.legend()
-
+            plt.xlim(0, 16000)
+            plt.ylim(-20, 400)
             fig.savefig(f"{path2}\\{filename}_ohne_untergrund.pdf")
             plt.show
-            mu = np.asarray(d)
-            merr = np.asarray(derr)
-            sigma = np.asarray(c)
-            sigmaerr = np.asarray(cerr)
-            fwhm = np.zeros(len(filter)-1)
-            fwhmerr = np.zeros(len(filter)-1)
-            Energie = np.array([0, 0, 121.8, 244.7, 344.3, 411.1, 444, 778.9, 867.4, 964.1, 1085.8, 1112.1, 1408])
-            #berechnung der halbwertsbreite jeder gaußkurve
-            for i in range (0,len(filter)-1):
-                fwhm[i] = 2*np.sqrt(2*np.log(2)) *((sigma[i])/9.366075984686372)
-                fwhmerr[i] = np.sqrt(2*np.sqrt(2*np.log(2))*((sigmaerr[i]/9.366075984686372)**2  + ((sigma[i])*0.0009724404315756183/(9.366075984686372**2))**2))
-                print (Energie[i], mu[i], merr[i], fwhm[i], fwhmerr[i]) # FWHM für Gaußkurve {i+1}: {fwhm[i]} $\pm$ {fwhmerr[i]}
+            # mu = np.asarray(d)
+            # merr = np.asarray(derr)
+            # sigma = np.asarray(c)
+            # sigmaerr = np.asarray(cerr)
+            # fwhm = np.zeros(len(filter)-1)
+            # fwhmerr = np.zeros(len(filter)-1)
+            # Energie = np.array([0, 0, 121.8, 244.7, 344.3, 411.1, 444, 778.9, 867.4, 964.1, 1085.8, 1112.1, 1408])
+            # #berechnung der halbwertsbreite jeder gaußkurve
+            # for i in range (0,len(filter)-1):
+            #     fwhm[i] = 2*np.sqrt(2*np.log(2)) *((sigma[i])/9.366075984686372)
+            #     fwhmerr[i] = np.sqrt(2*np.sqrt(2*np.log(2))*((sigmaerr[i]/9.366075984686372)**2  + ((sigma[i])*0.0009724404315756183/(9.366075984686372**2))**2))
+            #     # print (Energie[i], mu[i], merr[i], fwhm[i], fwhmerr[i]) # FWHM für Gaußkurve {i+1}: {fwhm[i]} $\pm$ {fwhmerr[i]}
         
         
             
